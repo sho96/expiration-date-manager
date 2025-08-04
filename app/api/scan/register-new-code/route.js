@@ -13,11 +13,11 @@ export async function POST(request) {
   }
 
   let type_id;
-  if (type !== "") {
+  if (type === "") {
     type_id = await getProductTypeFromProductName(name);
     if (!type_id) {
       return NextResponse.json({
-        error: "No registered product found. Enter product type to register as new product"
+        error: "No registered product found. Enter product type to register as a new product"
       })
     }
   } else {
