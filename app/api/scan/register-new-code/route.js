@@ -1,4 +1,4 @@
-import { addProduct, getProductFromCode, createOrGetTypeIdFromName, createOrGetProductIdFromName, addCode } from "@/utils/database";
+import { addProduct, getProductFromCode, createOrGetTypeIdFromName, createOrGetProductIdFromName, addCode, getProductTypeFromProductName } from "@/utils/database";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
