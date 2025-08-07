@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
   SidebarHeader
 } from "@/components/ui/sidebar"
+import Image from "next/image"
 
 const sideBarContents = [
   {
@@ -53,7 +54,7 @@ export function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="offcanvas">
       <SidebarHeader>
-        <Calendar />
+        <Image src="/icon.png" width={40} height={40} className="rounded-full" alt="Logo" />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
