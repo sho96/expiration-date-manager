@@ -2,6 +2,7 @@ import { FoodItem } from '../types/food'
 import { getDaysUntilExpiration } from '../utils/expiration'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AlertTriangle, Clock, Calendar, TrendingDown } from 'lucide-react'
+import colors from "./colors";
 
 interface SummaryCardsProps {
   items: FoodItem[]
@@ -24,33 +25,25 @@ export function SummaryCards({ items }: SummaryCardsProps) {
       title: 'Expired',
       count: expiredItems.length,
       icon: AlertTriangle,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
-      borderColor: 'border-red-200'
+      ...colors.expired
     },
     {
       title: 'Expires Today',
       count: todayItems.length,
       icon: Clock,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50',
-      borderColor: 'border-orange-200'
+      ...colors.today
     },
     {
       title: 'Expires Soon (1-3 days)',
       count: soonItems.length,
       icon: Calendar,
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-50',
-      borderColor: 'border-yellow-200'
+      ...colors.soon
     },
     {
       title: 'Upcoming (4-7 days)',
       count: upcomingItems.length,
       icon: TrendingDown,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200'
+      ...colors.upcoming
     }
   ]
 

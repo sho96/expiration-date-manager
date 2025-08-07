@@ -1,4 +1,5 @@
 import { FoodItem, ExpirationStatus } from '../types/food'
+import colors from '@/components/colors'
 
 export function getDaysUntilExpiration(expirationDate: Date): number {
   const today = new Date()
@@ -12,37 +13,32 @@ export function getExpirationStatus(daysUntil: number): ExpirationStatus {
     return {
       status: 'expired',
       daysUntilExpiration: daysUntil,
-      color: 'text-red-700',
-      bgColor: 'bg-red-100'
+      ...colors.expired
     }
   } else if (daysUntil === 0) {
     return {
       status: 'today',
       daysUntilExpiration: daysUntil,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50'
+      ...colors.today
     }
   } else if (daysUntil <= 3) {
     return {
       status: 'soon',
       daysUntilExpiration: daysUntil,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50'
+      ...colors.soon
     }
   } else if (daysUntil <= 7) {
     return {
       status: 'upcoming',
       daysUntilExpiration: daysUntil,
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-50'
+      ...colors.upcoming
     }
   }
   
   return {
     status: 'upcoming',
     daysUntilExpiration: daysUntil,
-    color: 'text-green-600',
-    bgColor: 'bg-green-50'
+    ...colors.upcoming
   }
 }
 

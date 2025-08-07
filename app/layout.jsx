@@ -1,9 +1,12 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-
+import { SidebarProvider, SidebarRail, SidebarTrigger } from "@/components/ui/sidebar";
+import { ThemeProvider } from "@/components/theme-provider";
+import ThemeToggle from "@/components/theme-toggle";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,14 +32,17 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SidebarProvider>
-          <AppSidebar />
-          
-          <main>
-            <SidebarTrigger />
-            {children}
-          </main>
-        </SidebarProvider>
+        <ThemeProvider attribute={"class"} defaultTheme="system" disableTransitionOnChange enableSystem>
+          <SidebarProvider>
+            <AppSidebar />
+            <main>
+              <SidebarTrigger size={5} className={"p-5"}/>
+              {children}
+            </main>
+            <SidebarRail />
+          </SidebarProvider>
+          <ThemeToggle />
+        </ThemeProvider>
       </body>
     </html>
   );

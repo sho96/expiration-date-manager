@@ -41,13 +41,13 @@ const page = () => {
       .then((resp) => setProductTypes(resp));
   }, []);
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-foreground mb-2">
             Product Types
           </h1>
-          <p className="text-gray-600">
+          <p className="text-muted-foreground">
             List of product types currently registered
           </p>
         </div>
@@ -62,7 +62,7 @@ const page = () => {
           <CardContent className={""}>
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   type={"text"}
                   placeholder="Search food items..."
@@ -76,18 +76,24 @@ const page = () => {
         </Card>
         <Card>
           <CardContent>
-            {filteredProductTypes.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
+            {!productTypes ? (
+              <div className="text-center py-8 text-muted-foreground">
                 <p className="text-lg mb-2">Loading...</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredProductTypes.map((productType) => (
-                  <ProductTypeCard
-                    key={productType.id}
-                    category={productType}
-                  />
-                ))}
+                {filteredProductTypes.length === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <p className="text-lg mb-2">No product types found</p>
+                  </div>
+                ) : (
+                  filteredProductTypes.map((productType) => (
+                    <ProductTypeCard
+                      key={productType.id}
+                      category={productType}
+                    />
+                  ))
+                )}
               </div>
             )}
           </CardContent>

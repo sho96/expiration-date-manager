@@ -13,7 +13,7 @@ export function BarcodeCard({ item, onDelete }) {
           <h3 className="font-semibold text-lg">{item.id}</h3>
         </div>
         
-        <div className="space-y-2 text-sm text-gray-600">
+        <div className="space-y-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Package className="w-4 h-4" />
             <span>{item.name}</span>

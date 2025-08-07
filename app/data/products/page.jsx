@@ -52,11 +52,11 @@ const page = () => {
       .then((resp) => setProducts(resp));
   }, []);
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Products</h1>
-          <p className="text-gray-600">List of products currently registered</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Products</h1>
+          <p className="text-muted-foreground">List of products currently registered</p>
         </div>
 
         <Card className="mb-6">
@@ -69,7 +69,7 @@ const page = () => {
           <CardContent className={""}>
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   type={"text"}
                   placeholder="Search food items..."
@@ -97,24 +97,24 @@ const page = () => {
             </div>
           </CardContent>
         </Card>
-        <div className="bg-white rounded-lg shadow">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-100">
+        <div className="overflow-x-auto rounded-lg shadow border-1 border-muted-foreground">
+          <table className="min-w-full divide-y divide-muted-foreground">
+            <thead className="bg-muted">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Category
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-background divide-y divide-muted-foreground">
               {filteredProducts.length === 0 && (
                 <tr>
                   <td
                     colSpan={4}
-                    className="px-6 py-4 text-center text-gray-400"
+                    className="px-6 py-4 text-center text-muted-foreground"
                   >
                     No products found.
                   </td>
@@ -122,10 +122,10 @@ const page = () => {
               )}
               {filteredProducts.map((product) => (
                 <tr key={product.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                     {product.name}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">
                     {product.category}
                   </td>
                 </tr>

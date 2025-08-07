@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Calendar, MapPin, Package, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+
 interface FoodItemCardProps {
   item: FoodItem,
   onDelete: (id: string) => void
@@ -33,7 +34,7 @@ export function FoodItemCard({ item, onDelete }: FoodItemCardProps) {
 
         
         
-        <div className="space-y-2 text-sm text-gray-600">
+        <div className="space-y-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
             <Package className="w-4 h-4" />
             <span>{item.category}</span>
@@ -51,7 +52,7 @@ export function FoodItemCard({ item, onDelete }: FoodItemCardProps) {
             <span>{item.location}</span>
           </div> */}
           
-          <div className="text-xs text-gray-500">
+          <div className="text-xs text-muted-foreground">
             Expires: {item.expirationDate.toLocaleDateString()}
           </div>
 

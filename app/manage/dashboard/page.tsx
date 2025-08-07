@@ -97,11 +97,11 @@ export default function ExpirationDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Food Expiration Dashboard</h1>
-          <p className="text-gray-600">Track your food items and never let anything go to waste</p>
+          <h1 className="text-3xl font-bold text-foreground; mb-2">Food Expiration Dashboard</h1>
+          <p className="text-muted-foreground">Track your food items and never let anything go to waste</p>
         </div>
         <SummaryCards items={filteredItems} />
 
@@ -115,7 +115,7 @@ export default function ExpirationDashboard() {
           <CardContent className={""}>
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   type={"text"}
                   placeholder="Search food items..."
@@ -157,11 +157,11 @@ export default function ExpirationDashboard() {
           </CardHeader>
           <CardContent className={""}>
             {!mockFoodItems ? (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-muted-foreground">
                 <p className="text-lg mb-2">Loading...</p>
               </div>
             ) : filteredItems.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-muted-foreground">
                 <p className="text-lg mb-2">No items found</p>
                 <p>Try adjusting your filters or add some food items to track</p>
               </div>
