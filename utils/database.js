@@ -67,28 +67,34 @@ export async function getProductFromCode(code){
 }
 
 async function getTypeIdFromName(name){
-  return (await supabase.from('product_type').select().eq('name', name).limit(1).single()).data;
+  const data = (await supabase.from('product_type').select().eq('name', name).limit(1).single()).data;
+  console.log("getTypeIdFromName: ", name, data);
+  return data ? data.id : null;
 }
 
 export async function createOrGetTypeIdFromName(name) {
   const type_id = await getTypeIdFromName(name);
   if (type_id) {
-    return type_id.id;
+    return type_id;
   } else {
-    return await addProductType(name);
+    await addProductType(name);
+    return await getTypeIdFromName(name);
   }
 }
 
 async function getProductIdFromName(name) {
-  return (await supabase.from('product').select().eq('name', name).limit(1).single()).data;
+  const data = (await supabase.from('product').select().eq('name', name).limit(1).single())?.data;
+  console.log("getProductIdFromName: ", name, data);
+  return data ? data.id : null;
 }
 
 export async function createOrGetProductIdFromName(name, type_id){
   const product_id = await getProductIdFromName(name);
   if (product_id) {
-    return product_id.id;
+    return product_id;
   } else {
-    return await addProduct(name, type_id);
+    await addProduct(name, type_id);
+    return await getProductIdFromName(name);
   }
 }
 
@@ -122,6 +128,7 @@ export async function getAllItemsFormatted(){
 
   return data.map(item => {
     console.log(item.product?.type?.name);
+    console.log(item)
     return {
       id: item.id,
       name: item.product?.name,

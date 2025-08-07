@@ -5,23 +5,23 @@ import { FoodItemCard } from '@/components/food-item-card'
 import { Search, Filter } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { sortByExpiration } from "@/utils/expiration";
 
 
 const page = () => {
   const [searchTerm, setSearchTerm] = useState('')
     const [categoryFilter, setCategoryFilter] = useState('all')
-    const [daysFilter, setDaysFilter] = useState('7')
     const [mockFoodItems, setMockFoodItems] = useState(null);
   
     const filteredItems = useMemo(() => {
       if (!mockFoodItems) return [];
-      return mockFoodItems.map(item => {
+      return sortByExpiration(mockFoodItems).map(item => {
       return {
         ...item,
         expirationDate: new Date(item.expirationDate)
       }
     });
-    }, [searchTerm, categoryFilter, daysFilter, mockFoodItems])
+    }, [searchTerm, categoryFilter, mockFoodItems])
   
     const categories = mockFoodItems ? [...new Set(mockFoodItems.map(item => item.category))] : []
   
@@ -88,26 +88,6 @@ const page = () => {
                       {category}
                     </SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
-
-              <Select value={daysFilter} onValueChange={setDaysFilter}>
-                <SelectTrigger className="w-full sm:w-48">
-                  <SelectValue placeholder="Days until expiration" />
-                </SelectTrigger>
-                <SelectContent className={""}>
-                  <SelectItem className={""} value="1">
-                    Next 1 day
-                  </SelectItem>
-                  <SelectItem className={""} value="3">
-                    Next 3 days
-                  </SelectItem>
-                  <SelectItem className={""} value="7">
-                    Next 7 days
-                  </SelectItem>
-                  <SelectItem className={""} value="14">
-                    Next 14 days
-                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>

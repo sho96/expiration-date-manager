@@ -24,10 +24,6 @@ const sideBarContents = [
         title: "Dashboard",
         icon: LayoutDashboard
       },
-      {
-        title: "Settings",
-        icon: Settings
-      }
     ]
   },
   {
@@ -55,7 +51,7 @@ const sideBarContents = [
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="sidebar" collapsible="icon">
+    <Sidebar variant="sidebar" collapsible="offcanvas">
       <SidebarHeader>
         <Calendar />
       </SidebarHeader>

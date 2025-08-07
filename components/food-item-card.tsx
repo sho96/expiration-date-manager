@@ -1,6 +1,6 @@
 import { FoodItem } from '../types/food'
 import { getDaysUntilExpiration, getExpirationStatus } from '../utils/expiration'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Calendar, MapPin, Package, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -22,8 +22,8 @@ export function FoodItemCard({ item, onDelete }: FoodItemCardProps) {
   }
 
   return (
-    <Card className={`${status.bgColor} border-l-4 ${status.color.replace('text-', 'border-')}`}>
-      <CardContent className="pl-4 pr-4">
+    <Card className={`${status.bgColor} border-l-4 ${status.color.replace('text-', 'border-')} p-4`}>
+      <CardContent className="p-0">
         <div className="flex justify-between items-start mb-2">
           <h3 className="font-semibold text-lg">{item.name}</h3>
           <Badge variant="secondary" className={`${status.color} ${status.bgColor}`}>
@@ -55,19 +55,19 @@ export function FoodItemCard({ item, onDelete }: FoodItemCardProps) {
             Expires: {item.expirationDate.toLocaleDateString()}
           </div>
 
-          <div>
-            <Button
-            variant="destructive"
-            size="icon"
-            onClick={() => onDelete(item.id)}
-            aria-label="Delete item"
-            className={"w-[100%] opacity-10 hover:opacity-100"}
-            >
-              <Trash2 />
-            </Button>
-          </div>
         </div>
       </CardContent>
+      <CardFooter className="">
+        <Button
+        variant={"ghost"}
+        size="icon"
+        onClick={() => onDelete(item.id)}
+        aria-label="Delete item"
+        className={"w-[100%] hover:bg-red-500 hover:text-white"}
+        >
+          <Trash2 />
+        </Button>
+      </CardFooter>
     </Card>
   )
 }

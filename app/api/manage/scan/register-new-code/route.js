@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
   const data = await request.json();
   const { name, type, code } = data;
+  console.log("Received: ", name, type, code);
 
   const codeExists = await getProductFromCode(code);
   if (codeExists) {

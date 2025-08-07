@@ -2,15 +2,14 @@
 import BarcodeScanner from '@/components/BarcodeScanner'
 import NewProductRegistrationDialog from '@/components/NewProductRegistrationDialog';
 import ProductRegistrationDialog from '@/components/ProductRegistrationDialog';
+import { Loader, LoaderCircle } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import useSWR from 'swr';
-
-
 
 const page = () => {
   const stopped = useRef(false);
   const [newProductRegistrationData, setNewProductRegistrationData] = useState({});
   const [productRegistrationData, setProductRegistrationData] = useState({});
+  const [scannedData, setScannedData] = useState(false);
   
   const registerNewProduct = useCallback(
     (data) => {
@@ -29,8 +28,11 @@ const page = () => {
           return;
         }
         console.log(resp);
-        stopped.current = false;
         setNewProductRegistrationData({});
+        setProductRegistrationData({
+          id: resp.product_id,
+          ...resp
+        });
       })
     },
     [stopped.current]
@@ -65,10 +67,12 @@ const page = () => {
       if (stopped.current) return;
       if (!result) return;
 
+      setScannedData(result);
       stopped.current = true;
       fetch(`/api/manage/scan?code=${result.text}`)
       .then((r) => r.json())
       .then(resp => {
+        setScannedData(null);
         if (resp.product_id){
           setProductRegistrationData({id: resp.product_id, ...resp});
           return;
@@ -82,12 +86,26 @@ const page = () => {
 
   return (
     <>
-      <BarcodeScanner
-        width={500}
-        height={500}
-        onUpdate={onUpdate}
-      />
-      <NewProductRegistrationDialog data={newProductRegistrationData} setData={setNewProductRegistrationData} close={() => stopped.current=false} registerNewProduct={registerNewProduct}/>
+      <div className='flex flex-col items-center'>
+        <BarcodeScanner
+          width={500}
+          height={500}
+          onUpdate={onUpdate}
+        />
+        <div className="flex">
+          {
+            scannedData ? (
+              <>
+                <LoaderCircle className="animate-spin" />
+                <p className='ml-2'>{scannedData.text}</p>
+              </>
+            ) : (
+              <p className='ml-2'>Scan a barcode</p>
+            )
+          }
+        </div>
+      </div>
+      <NewProductRegistrationDialog data={newProductRegistrationData} setData={setNewProductRegistrationData} close={() => null} registerNewProduct={registerNewProduct}/>
       <ProductRegistrationDialog data={productRegistrationData} setData={setProductRegistrationData} close={() => stopped.current=false} registerProduct={registerProduct}/>
     </>
   );
