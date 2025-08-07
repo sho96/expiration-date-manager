@@ -1,4 +1,4 @@
-import { Barcode, Blocks, Calendar, Calendar1, CircleUser, Cookie, Home, Inbox, LayoutDashboard, ScanSearch, Search, Settings, Shapes, Users, WalletMinimal } from "lucide-react"
+import { Barcode, Blocks, Calendar, Calendar1, CalendarX, CircleUser, Cookie, Home, Inbox, LayoutDashboard, ScanSearch, Search, Settings, Shapes, Users, WalletMinimal } from "lucide-react"
 
 import {
   Sidebar,
@@ -14,7 +14,7 @@ import {
 
 const sideBarContents = [
   {
-    title: "App",
+    title: "Manage",
     items: [
       {
         title: "Scan",
@@ -55,11 +55,9 @@ const sideBarContents = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar variant="sidebar" collapsible="icon">
       <SidebarHeader>
-        <div className="flex items-center gap-2">
-          <Calendar /> <h1>Expiration Date Manager</h1>
-        </div>
+        <Calendar />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -72,7 +70,7 @@ export function AppSidebar() {
                     {items.map((item) => (
                       <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton asChild>
-                          <a href={`/${title.toLowerCase()}/${item.title.toLowerCase()}`}>
+                          <a href={`/${title.toLowerCase()}/${item.title.toLowerCase().replace(' ', '-')}`}>
                             <item.icon />
                             <span>{item.title}</span>
                           </a>
@@ -84,7 +82,6 @@ export function AppSidebar() {
               </SidebarGroup>
             ))
           }
-          
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

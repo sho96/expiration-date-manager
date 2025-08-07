@@ -51,7 +51,6 @@ const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct
 
   return (
     <Dialog open={!!data.code} onOpenChange={onOpenChange}>
-      <DialogTrigger>Open</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Register New Product</DialogTitle>

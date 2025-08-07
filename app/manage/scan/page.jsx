@@ -8,7 +8,6 @@ import useSWR from 'swr';
 
 
 const page = () => {
-  const [readCode, setReadCode] = useState("Not Found");
   const stopped = useRef(false);
   const [newProductRegistrationData, setNewProductRegistrationData] = useState({});
   const [productRegistrationData, setProductRegistrationData] = useState({});
@@ -16,7 +15,7 @@ const page = () => {
   const registerNewProduct = useCallback(
     (data) => {
       console.log(data);
-      fetch(`/api/scan/register-new-code`, {
+      fetch(`/api/manage/scan/register-new-code`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +39,7 @@ const page = () => {
   const registerProduct = useCallback(
     (data) => {
       console.log(data);
-      fetch(`/api/scan/register-product`, {
+      fetch(`/api/manage/scan/register-product`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +66,7 @@ const page = () => {
       if (!result) return;
 
       stopped.current = true;
-      fetch(`/api/scan?code=${result.text}`)
+      fetch(`/api/manage/scan?code=${result.text}`)
       .then((r) => r.json())
       .then(resp => {
         if (resp.product_id){
