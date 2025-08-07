@@ -54,7 +54,9 @@ export function AppSidebar() {
   return (
     <Sidebar variant="sidebar" collapsible="offcanvas">
       <SidebarHeader>
-        <Image src="/icon.png" width={40} height={40} className="rounded-full" alt="Logo" />
+        <a href="/">
+          <Image src="/icon.png" width={40} height={40} className="rounded-full" alt="Logo" />
+        </a>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
