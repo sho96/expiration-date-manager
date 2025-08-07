@@ -96,7 +96,7 @@ const page = () => {
         <Card className={""}>
           <CardHeader className={""}>
             <CardTitle className={""}>
-              Items Near Expiration ({filteredItems.length})
+              Registered Items ({filteredItems.length})
             </CardTitle>
           </CardHeader>
           <CardContent className={""}>

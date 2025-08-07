@@ -46,10 +46,10 @@ const page = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Items
+            Barcodes
           </h1>
           <p className="text-gray-600">
-            List of items currently registered
+            List of barcodes currently registered
           </p>
         </div>
 
@@ -78,7 +78,7 @@ const page = () => {
         <Card className={""}>
           <CardHeader className={""}>
             <CardTitle className={""}>
-              Items Near Expiration ({filteredBarcodes.length})
+              Registered Barcodes ({filteredBarcodes.length})
             </CardTitle>
           </CardHeader>
           <CardContent className={""}>
@@ -88,9 +88,9 @@ const page = () => {
               </div>
             ) : filteredBarcodes.length === 0 ? (
               <div className="text-center py-8 text-gray-500">
-                <p className="text-lg mb-2">No items found</p>
+                <p className="text-lg mb-2">No barcodes found</p>
                 <p>
-                  Try adjusting your filters or add some food items to track
+                  Try adjusting your filters
                 </p>
               </div>
             ) : (

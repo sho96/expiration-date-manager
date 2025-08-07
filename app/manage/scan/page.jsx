@@ -87,25 +87,25 @@ const page = () => {
   return (
     <>
       <div className='flex flex-col items-center'>
-        <BarcodeScanner
-          width={500}
-          height={500}
-          onUpdate={onUpdate}
-        />
         <div className="flex">
           {
             scannedData ? (
               <>
                 <LoaderCircle className="animate-spin" />
-                <p className='ml-2'>{scannedData.text}</p>
+                <h3 className='ml-2 text-lg font-semibold'>{scannedData.text}</h3>
               </>
             ) : (
-              <p className='ml-2'>Scan a barcode</p>
+              <h3 className='ml-2 text-lg font-semibold'>Scan a barcode</h3>
             )
           }
         </div>
+        <BarcodeScanner
+          width={500}
+          height={500}
+          onUpdate={onUpdate}
+        />
       </div>
-      <NewProductRegistrationDialog data={newProductRegistrationData} setData={setNewProductRegistrationData} close={() => null} registerNewProduct={registerNewProduct}/>
+      <NewProductRegistrationDialog data={newProductRegistrationData} setData={setNewProductRegistrationData} close={() => stopped.current=false} registerNewProduct={registerNewProduct}/>
       <ProductRegistrationDialog data={productRegistrationData} setData={setProductRegistrationData} close={() => stopped.current=false} registerProduct={registerProduct}/>
     </>
   );

@@ -22,9 +22,8 @@ const page = () => {
     let filtered = productTypes;
 
     if (searchTerm) {
-      filtered = filtered.filter(
-        (item) =>
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter((item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
     console.log(filtered);
@@ -45,8 +44,12 @@ const page = () => {
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">productTypes</h1>
-          <p className="text-gray-600">List of productTypes currently registered</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Product Types
+          </h1>
+          <p className="text-gray-600">
+            List of product types currently registered
+          </p>
         </div>
 
         <Card className="mb-6">
@@ -73,11 +76,20 @@ const page = () => {
         </Card>
         <Card>
           <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {filteredProductTypes.map((productType) => (
-                <ProductTypeCard key={productType.id} category={productType} />
-              ))}
-            </div>
+            {filteredProductTypes.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <p className="text-lg mb-2">Loading...</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {filteredProductTypes.map((productType) => (
+                  <ProductTypeCard
+                    key={productType.id}
+                    category={productType}
+                  />
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
