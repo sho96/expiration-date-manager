@@ -58,14 +58,14 @@ export function LeftoverCard({ leftover, onDelete }: LeftoverCardProps) {
       </CardContent>
       <CardFooter className="">
         {onDelete && <Button
-        variant={"ghost"}
+        variant={"destructive"}
         size="icon"
         onClick={() => onDelete({
           id: leftover.id,
           expired: daysUntil < 0
         })}
         aria-label="Delete item"
-        className={"w-[100%] hover:bg-red-500 hover:text-white"}
+        className={"w-[100%] opacity-30 hover:opacity-100"}
         >
           <Trash2 />
         </Button>}

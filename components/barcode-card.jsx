@@ -25,7 +25,7 @@ export function BarcodeCard({ item, onDelete }) {
             size="icon"
             onClick={() => onDelete(item.id)}
             aria-label="Delete item"
-            className={"w-[100%] opacity-10 hover:opacity-100"}
+            className={"w-[100%] opacity-30 hover:opacity-100"}
             >
               <Trash2 />
             </Button>
