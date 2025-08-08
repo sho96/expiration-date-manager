@@ -1,14 +1,13 @@
-import { FoodItem, ExpirationStatus } from '../types/food'
 import colors from '@/components/colors'
 
-export function getDaysUntilExpiration(expirationDate: Date): number {
+export function getDaysUntilExpiration(expirationDate) {
   const today = new Date()
   const expDate = new Date(expirationDate)
   const diffTime = expDate.getTime() - today.getTime()
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 }
 
-export function getExpirationStatus(daysUntil: number): ExpirationStatus {
+export function getExpirationStatus(daysUntil) {
   if (daysUntil < 0) {
     return {
       status: 'expired',
@@ -42,14 +41,15 @@ export function getExpirationStatus(daysUntil: number): ExpirationStatus {
   }
 }
 
-export function filterItemsNearExpiration(items: FoodItem[], maxDays: number = 7): FoodItem[] {
+export function filterItemsNearExpiration(items, maxDays) {
   return items.filter(item => {
     const daysUntil = getDaysUntilExpiration(item.expirationDate)
+    console.log(item, daysUntil);
     return daysUntil <= maxDays
   })
 }
 
-export function sortByExpiration(items: FoodItem[]): FoodItem[] {
+export function sortByExpiration(items) {
   return [...items].sort((a, b) => 
     new Date(a.expirationDate).getTime() - new Date(b.expirationDate).getTime()
   )

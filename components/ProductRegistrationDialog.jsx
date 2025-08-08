@@ -46,6 +46,7 @@ const ProductRegistrationDialog = ({ data, setData, close, registerProduct }) =>
     if (!open) {
       form.reset()
       close();
+      setSubmitting(false);
       setData({});
     }
   }, [form, setData, close])
@@ -59,7 +60,11 @@ const ProductRegistrationDialog = ({ data, setData, close, registerProduct }) =>
             Enter Expiration Date for {data.name}
           </DialogDescription>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(registerProduct)}>
+            <form onSubmit={e => {
+              e.preventDefault();
+              setSubmitting(true);
+              registerProduct(form.getValues());
+            }}>
               <FormField
                 control={form.control}
                 name="expiration_date"
@@ -93,7 +98,7 @@ const ProductRegistrationDialog = ({ data, setData, close, registerProduct }) =>
                   </FormItem>
                 )}
               />
-              <Button type="submit" disabled={submitting} onClick={() => setSubmitting(true)}>Register Product</Button>
+              <Button type="submit" disabled={submitting}>Register Product</Button>
             </form>
           </Form>
         </DialogHeader>

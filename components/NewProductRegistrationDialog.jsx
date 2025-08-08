@@ -47,6 +47,7 @@ const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct
     if (!open) {
       form.reset()
       close();
+      setSubmitting(false);
       setData({});
     }
   }, [form, setData, close])
@@ -60,7 +61,11 @@ const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct
             Register a new product for code: {data.code}
           </DialogDescription>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(registerNewProduct)}>
+            <form onSubmit={e => {
+              e.preventDefault();
+              setSubmitting(true);
+              registerNewProduct(form.getValues());
+            }}>
               {/* Product Name: select from existing or enter new */}
               <FormField
                 control={form.control}
@@ -126,7 +131,7 @@ const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct
                   </FormItem>
                 )}
               />
-              <Button type="submit" disabled={submitting} onClick={() => setSubmitting(true)}>Register</Button>
+              <Button type="submit" disabled={submitting}>Register</Button>
             </form>
           </Form>
         </DialogHeader>

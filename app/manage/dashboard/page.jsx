@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Search, Filter } from 'lucide-react'
 import useSWR from 'swr'
+import { LeftoverCard } from '@/components/leftover-card'
 
 // Mock data for demonstration
 /* const mockFoodItems: FoodItem[] = [
@@ -61,12 +62,14 @@ export default function ExpirationDashboard() {
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [daysFilter, setDaysFilter] = useState('7')
-  const [mockFoodItems, setMockFoodItems] = useState<FoodItem[] | null>(null);
+  const [mockFoodItems, setMockFoodItems] = useState(null);
 
   const filteredItems = useMemo(() => {
     if (!mockFoodItems) return [];
     let items = filterItemsNearExpiration(mockFoodItems, parseInt(daysFilter))
     
+    console.log(mockFoodItems, items);
+
     if (searchTerm) {
       items = items.filter(item => 
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -88,13 +91,30 @@ export default function ExpirationDashboard() {
     });
   }, [searchTerm, categoryFilter, daysFilter, mockFoodItems])
 
-  const categories = mockFoodItems ? [...new Set(mockFoodItems.map(item => item.category))] : []
+  const categories = mockFoodItems ? [...new Set(mockFoodItems.filter(item => item.category).map(item => item.category))] : []
 
   useEffect(() => {
     fetch("/api/manage/dashboard")
     .then(resp => resp.json())
-    .then(resp => setMockFoodItems(resp));    
+    .then(resp => {
+      console.log(resp);
+      return resp;
+    })
+    .then(resp => setMockFoodItems([
+      ...resp.items,
+      ...resp.leftovers.map(item => {
+        return {
+          ...item,
+          id: `leftover-${item.id}`,
+          category: "Leftovers"
+        }
+      })
+    ]));
   }, []);
+
+  useEffect(() => {
+    console.log(mockFoodItems);
+  }, [mockFoodItems]);
 
   return (
     <div className="min-h-screen bg-background p-4">
@@ -167,9 +187,18 @@ export default function ExpirationDashboard() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredItems.map(item => (
+                {/* {filteredItems.map(item => (
                   <FoodItemCard key={item.id} item={item} onDelete={null}/>
-                ))}
+                ))} */}
+                {
+                  filteredItems.map(item => {
+                    return item.category === "Leftovers" ? (
+                      <LeftoverCard key={item.id} leftover={item} onDelete={null} />
+                    ) : (
+                      <FoodItemCard key={item.id} item={item} onDelete={null} />
+                    )
+                  })
+                }
               </div>
             )}
           </CardContent>

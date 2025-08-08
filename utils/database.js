@@ -202,4 +202,28 @@ export async function getCodesFormatted(){
   });
 }
 
+export async function getLeftoversFormatted(){
+  //id name expirationDate
+  const { data, error } = await supabase
+    .from('leftovers')
+    .select(`
+      id,
+      name,
+      expiration_date
+    `);
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+
+  return data.map(leftover => {
+    return {
+      id: leftover.id,
+      name: leftover.name,
+      expirationDate: leftover.expiration_date ? new Date(leftover.expiration_date) : null
+    }
+  });
+}
+
 export default supabase 

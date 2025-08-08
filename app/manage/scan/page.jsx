@@ -31,7 +31,7 @@ const page = () => {
         setNewProductRegistrationData({});
         setProductRegistrationData({
           id: resp.product_id,
-          ...resp
+          ...data
         });
       })
     },

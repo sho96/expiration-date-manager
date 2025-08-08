@@ -21,7 +21,7 @@ const page = () => {
       return sortByExpiration(leftovers).map(item => {
       return {
         ...item,
-        expirationDate: new Date(item.expiration_date)
+        expirationDate: new Date(item.expirationDate)
       }
     });
     }, [searchTerm, leftovers])

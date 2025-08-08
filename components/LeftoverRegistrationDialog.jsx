@@ -57,6 +57,7 @@ export function LeftoverRegistrationDialog({
       if (!open) {
         form.reset();
         close();
+        setSubmitting(false);
       }
     },
     [form, close]
