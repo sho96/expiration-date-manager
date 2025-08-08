@@ -7,9 +7,13 @@ import { Button } from '@/components/ui/button'
 import { Leftover } from '@/types/leftover'
 
 
+interface onDeleteProps {
+  id: string,
+  expired: boolean
+}
 interface LeftoverCardProps {
   leftover: Leftover,
-  onDelete?: (id: string) => void
+  onDelete?: (leftover: onDeleteProps) => void
 }
 
 export function LeftoverCard({ leftover, onDelete }: LeftoverCardProps) {
@@ -56,7 +60,10 @@ export function LeftoverCard({ leftover, onDelete }: LeftoverCardProps) {
         {onDelete && <Button
         variant={"ghost"}
         size="icon"
-        onClick={() => onDelete(leftover.id)}
+        onClick={() => onDelete({
+          id: leftover.id,
+          expired: daysUntil < 0
+        })}
         aria-label="Delete item"
         className={"w-[100%] hover:bg-red-500 hover:text-white"}
         >

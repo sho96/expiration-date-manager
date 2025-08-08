@@ -7,9 +7,11 @@ import {
   CircleUser,
   Cookie,
   CookingPot,
+  History,
   Home,
   Inbox,
   LayoutDashboard,
+  PackagePlus,
   ScanSearch,
   Search,
   Settings,
@@ -40,8 +42,16 @@ const sideBarContents = [
         icon: ScanSearch,
       },
       {
+        title: "Manual Registration",
+        icon: PackagePlus,
+      },
+      {
         title: "Dashboard",
         icon: LayoutDashboard,
+      },
+      {
+        title: "History",
+        icon: History,
       },
     ],
   },

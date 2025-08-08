@@ -53,6 +53,75 @@ export async function getCodes(){
   return (await supabase.from('code_to_product').select()).data;
 }
 
+async function removeHistoryRecordOlderThan(date) {
+  return (await supabase.from('history').delete().lt('date', date)).data;
+}
+
+export async function getOrCreateTodaysHistoryRecord(todayStr){ // YYYY-MM-DD
+  //delete history records older than a year
+  let yearAgoStr = new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString().split('T')[0];
+  await removeHistoryRecordOlderThan(yearAgoStr);
+
+  let { data, error } = await supabase
+    .from('history')
+    .select()
+    .eq('date', todayStr)
+    .limit(1)
+    .single();
+
+  if (error && error.code !== 'PGRST116') { // not "No rows found"
+    throw error;
+  }
+
+  if (!data) {
+    const insertResult = await supabase
+      .from('history')
+      .insert({ date: todayStr, expired: 0, saved: 0 })
+      .select()
+      .single();
+    if (insertResult.error) throw insertResult.error;
+    data = insertResult.data;
+  }
+
+  return data;
+}
+
+export async function incrementNumberOfExpirations(dateStr, n=1){ // YYYY-MM-DD
+  //increment history record's history.expired with today's history.date
+  const history = await getOrCreateTodaysHistoryRecord(dateStr);
+  const updateResult = await supabase
+    .from('history')
+    .update({ expired: history.expired + n })
+    .eq('date', history.date)
+    .select()
+    .single();
+  if (updateResult.error) throw updateResult.error;
+  return updateResult.data;
+}
+
+export async function incrementNumberOfSaves(dateStr, n=1){ // YYYY-MM-DD
+  //increment history record's history.saved with today's history.date
+  const history = await getOrCreateTodaysHistoryRecord(dateStr);
+  const updateResult = await supabase
+    .from('history')
+    .update({ saved: history.saved + n })
+    .eq('date', history.date)
+    .select()
+    .single();
+  if (updateResult.error) throw updateResult.error;
+  return updateResult.data;
+}
+
+
+
+export async function getHistory(){
+  return (await supabase.from('history').select()).data;
+}
+
+export async function getHistoryRange(startDateStr){
+  return (await supabase.from('history').select().gte('date', startDateStr)).data;
+}
+
 export async function getProductFromCode(code){
   const { data, error } = await supabase
   .from('code_to_product')

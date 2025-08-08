@@ -1,10 +1,11 @@
 "use client"
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Search, Filter } from 'lucide-react'
+import { Search, Filter, Trash2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { BarcodeCard } from "@/components/barcode-card";
+import toast from "react-hot-toast";
 
 
 const page = () => {
@@ -39,6 +40,7 @@ const page = () => {
       .then(resp => resp.json())
       .then(resp => {
         setBarcodes(resp);
+        toast.custom(<div><Trash2 className="w-4 h-4 mr-2" /> Code removed</div>, { duration: 2000 })
       })
     }, [barcodes])
   return (

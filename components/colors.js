@@ -3,6 +3,7 @@ const colors = {
     color: "text-gray-600 dark:text-gray-300",
     bgColor: "bg-gray-50 dark:bg-gray-500",
     borderColor: "border-gray-200 dark:border-gray-700",
+    raw: ""
   },
   today: {
     color: "text-orange-600 dark:text-orange-400",
@@ -19,6 +20,11 @@ const colors = {
     bgColor: "bg-blue-50 dark:bg-blue-900",
     borderColor: "border-blue-200 dark:border-blue-700",
   },
+  saved: {
+    color: "text-green-600 dark:text-green-400",
+    bgColor: "bg-green-50 dark:bg-green-900",
+    borderColor: "border-green-200 dark:border-green-700",
+  }
 };
 export default colors
 

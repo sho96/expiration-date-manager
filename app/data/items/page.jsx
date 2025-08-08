@@ -2,10 +2,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { FoodItemCard } from '@/components/food-item-card'
-import { Search, Filter } from 'lucide-react'
+import { Search, Filter, Trash2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { sortByExpiration } from "@/utils/expiration";
+import { getTodayStr } from "@/utils/client/date";
+import toast from "react-hot-toast";
 
 
 const page = () => {
@@ -31,16 +33,22 @@ const page = () => {
       .then(resp => setMockFoodItems(resp));    
     }, []);
 
-    const removeItem = useCallback(item_id => {
+    const removeItem = useCallback(item => {
       fetch("/api/data/items", {
         method: "DELETE",
         body: JSON.stringify({
-          item_id
+          item_id: item.id,
+          expired: item.expired,
+          dateStr: getTodayStr()
         })
       })
       .then(resp => resp.json())
       .then(resp => {
         setMockFoodItems(resp);
+        toast.custom(<div>
+          <Trash2 className="w-4 h-4" />
+          <p>Item removed</p>
+        </div>, { duration: 2000 });
       })
     }, [mockFoodItems])
   return (

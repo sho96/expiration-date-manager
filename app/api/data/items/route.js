@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deleteItem, getAllItemsFormatted } from "@/utils/database";
+import { deleteItem, getAllItemsFormatted, incrementNumberOfExpirations, incrementNumberOfSaves } from "@/utils/database";
 
 export async function GET(){
   const items = await getAllItemsFormatted();
@@ -8,7 +8,11 @@ export async function GET(){
 }
 
 export async function DELETE( request ){
-  const { item_id } = await request.json();
+  const { item_id, expired, dateStr } = await request.json();
+
+  if (!expired) {
+    await incrementNumberOfSaves(dateStr, 1);
+  }
 
   await deleteItem(item_id);
 

@@ -9,6 +9,8 @@ import { sortByExpiration } from "@/utils/expiration";
 import { LeftoverCard } from "@/components/leftover-card";
 import { Button } from "@/components/ui/button";
 import {LeftoverRegistrationDialog} from "@/components/LeftoverRegistrationDialog";
+import { getTodayStr } from "@/utils/client/date";
+import toast from "react-hot-toast";
 
 const page = () => {
   const [leftoverRegistrationDialogOpened, setLeftoverRegistrationDialogOpened] = useState(false);
@@ -32,16 +34,21 @@ const page = () => {
       .then(resp => setLeftovers(resp));    
     }, []);
 
-    const removeLeftover = useCallback(id => {
+    const removeLeftover = useCallback(leftover => {
       fetch("/api/data/leftovers", {
         method: "DELETE",
         body: JSON.stringify({
-          id
+          id: leftover.id,
+          expired: leftover.expired,
+          dateStr: getTodayStr()
         })
       })
       .then(resp => resp.json())
       .then(resp => {
         setLeftovers(resp);
+        toast.success(`Removed leftover`, {
+          duration: 3000,
+        });
       })
     }, [leftovers])
 
@@ -63,6 +70,9 @@ const page = () => {
         console.log(resp);
         setLeftovers(resp);
         setLeftoverRegistrationDialogOpened(false);
+        toast.success(`Added ${data.name} to leftovers`, {
+          duration: 3000,
+        });
       })
     }, [leftovers])
   return (

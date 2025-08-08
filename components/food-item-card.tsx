@@ -8,9 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Package, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+interface onDeleteProps {
+  id: string,
+  expired: boolean
+}
 interface FoodItemCardProps {
   item: FoodItem;
-  onDelete?: (id: string) => void;
+  onDelete?: (item: onDeleteProps) => void;
 }
 
 export function FoodItemCard({ item, onDelete }: FoodItemCardProps) {
@@ -70,7 +74,7 @@ export function FoodItemCard({ item, onDelete }: FoodItemCardProps) {
           <Button
             variant={"ghost"}
             size="icon"
-            onClick={() => onDelete(item.id)}
+            onClick={() => onDelete({ id: item.id, expired: daysUntil < 0 })}
             aria-label="Delete item"
             className={"w-[100%] hover:bg-red-500 hover:text-white"}
           >

@@ -1,15 +1,18 @@
-import { addLeftover, deleteLeftover, getLeftovers, getLeftoversFormatted } from "@/utils/database";
+import { addLeftover, deleteLeftover, getLeftovers, getLeftoversFormatted, incrementNumberOfExpirations, incrementNumberOfSaves } from "@/utils/database";
 import { NextResponse } from "next/server";
 
 export async function GET(){
   const leftovers = await getLeftoversFormatted();
   console.log("Returning: ", leftovers);
   return NextResponse.json(leftovers);
-
 }
 
 export async function DELETE( request ){
-  const { id } = await request.json();
+  const { id, expired, dateStr } = await request.json();
+
+  if (!expired) {
+    await incrementNumberOfSaves(dateStr, 1);
+  }
 
   await deleteLeftover(id);
   
