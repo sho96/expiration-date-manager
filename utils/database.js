@@ -111,7 +111,7 @@ export async function createOrGetProductIdFromName(name, type_id){
 }
 
 export async function getProductTypeFromProductName(name) {
-  return (await supabase.from('product_type').select().eq('name', name).limit(1).single()).data;
+  return (await supabase.from('product').select('type').eq('name', name).limit(1).single()).data?.type;
 }
 
 export async function getAllItemsFormatted(){
