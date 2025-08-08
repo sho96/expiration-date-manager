@@ -53,6 +53,43 @@ export async function getCodes(){
   return (await supabase.from('code_to_product').select()).data;
 }
 
+export async function addExpiredItem(item_id){
+  //return true if added return false if already exists
+
+  const { data, error } = await supabase
+    .from("expired")
+    .select()
+    .eq("item_id", item_id)
+    .maybeSingle();
+
+  if (error && error.code !== 'PGRST116') {
+    throw error;
+  }
+  if (data) {
+    return false;
+  }
+  await supabase.from("expired").insert({ item_id });
+  return true;
+  //return (await supabase.from("expired").insert({ item_id })).data;
+}
+
+export async function addExpiredLeftover(leftover_id){
+  const { data, error } = await supabase
+    .from("expired_leftover")
+    .select()
+    .eq("leftover_id", leftover_id)
+    .maybeSingle();
+
+  if (error && error.code !== 'PGRST116') {
+    throw error;
+  }
+  if (data) {
+    return false;
+  }
+  await supabase.from("expired_leftover").insert({ leftover_id });
+  return true;
+}
+
 async function removeHistoryRecordOlderThan(date) {
   return (await supabase.from('history').delete().lt('date', date)).data;
 }
