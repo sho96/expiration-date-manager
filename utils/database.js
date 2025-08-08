@@ -75,7 +75,7 @@ export async function addExpiredItem(item_id){
 
 export async function addExpiredLeftover(leftover_id){
   const { data, error } = await supabase
-    .from("expired_leftover")
+    .from("expired")
     .select()
     .eq("leftover_id", leftover_id)
     .maybeSingle();
@@ -86,7 +86,7 @@ export async function addExpiredLeftover(leftover_id){
   if (data) {
     return false;
   }
-  await supabase.from("expired_leftover").insert({ leftover_id });
+  await supabase.from("expired").insert({ leftover_id });
   return true;
 }
 

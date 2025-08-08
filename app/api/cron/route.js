@@ -1,5 +1,5 @@
 import { addExpiredItem, addExpiredLeftover, getAllItemsFormatted, getLeftoversFormatted, incrementNumberOfExpirations } from "@/utils/database";
-
+import { NextResponse } from "next/server";
 export async function GET(){
   const allItems = await getAllItemsFormatted();
   const allLeftovers = await getLeftoversFormatted();
@@ -7,13 +7,17 @@ export async function GET(){
   const expiredItems = allItems.filter(item => item.expirationDate < new Date());
   const expiredLeftovers = allLeftovers.filter(leftover => leftover.expirationDate < new Date());
 
-  const newlyExpiredItems = await expiredItems.map(async item => {
-    await addExpiredItem(item.id);
-  });
+  const newlyExpiredItems = (await Promise.all(
+    expiredItems.map(async item => {
+      return await addExpiredItem(item.id);
+    })
+  )).filter(leftover => leftover);
 
-  const newlyExpiredLeftovers = await expiredLeftovers.map(async leftover => {
-    await addExpiredLeftover(leftover.id);
-  });
+  const newlyExpiredLeftovers = (await Promise.all(
+    expiredLeftovers.map(async leftover => {
+      return await addExpiredLeftover(leftover.id);
+    })
+  )).filter(leftover => leftover);
 
   const totalExpired = newlyExpiredItems.length + newlyExpiredLeftovers.length;
   
