@@ -29,6 +29,18 @@ export async function deleteItem(item_id){
   return (await supabase.from("item").delete().eq('id', item_id)).data;
 }
 
+export async function addLeftover(name, expiration_date){
+  return (await supabase.from('leftovers').insert({ name, expiration_date })).data;
+}
+
+export async function getLeftovers(){
+  return (await supabase.from('leftovers').select()).data;
+}
+
+export async function deleteLeftover(leftover_id){
+  return (await supabase.from("leftovers").delete().eq('id', leftover_id)).data;
+}
+
 export async function addCode(code, product_id){
   return (await supabase.from('code_to_product').insert({ id: code, product_id }));
 }

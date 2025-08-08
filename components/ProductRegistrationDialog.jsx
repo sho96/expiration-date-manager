@@ -26,6 +26,8 @@ import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
 
 const ProductRegistrationDialog = ({ data, setData, close, registerProduct }) => {
+  const [submitting, setSubmitting] = React.useState(false);
+
   const form = useForm({
     product_id: data.id,
     expiration_date: null
@@ -91,7 +93,7 @@ const ProductRegistrationDialog = ({ data, setData, close, registerProduct }) =>
                   </FormItem>
                 )}
               />
-              <Button type="submit">Register Product</Button>
+              <Button type="submit" disabled={submitting} onClick={() => setSubmitting(true)}>Register Product</Button>
             </form>
           </Form>
         </DialogHeader>

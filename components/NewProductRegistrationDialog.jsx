@@ -24,6 +24,8 @@ import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 
 const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct }) => {
+  const [submitting, setSubmitting] = React.useState(false);
+
   const form = useForm({
     defaultValues: {
       name: "",
@@ -124,7 +126,7 @@ const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct
                   </FormItem>
                 )}
               />
-              <Button type="submit">Register</Button>
+              <Button type="submit" disabled={submitting} onClick={() => setSubmitting(true)}>Register</Button>
             </form>
           </Form>
         </DialogHeader>
