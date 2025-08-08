@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Dialog,
@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -16,40 +16,53 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
-import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
-import React, { useCallback, useEffect } from 'react'
-import { Button } from "@/components/ui/button"
-import { useForm } from "react-hook-form"
+import React, { useCallback, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { useForm } from "react-hook-form";
 
-const ProductRegistrationDialog = ({ data, setData, close, registerProduct }) => {
+const ProductRegistrationDialog = ({
+  data,
+  setData,
+  close,
+  registerProduct,
+}) => {
   const [submitting, setSubmitting] = React.useState(false);
 
   const form = useForm({
     product_id: data.id,
-    expiration_date: null
+    expiration_date: null,
   });
-  
+
   useEffect(() => {
     if (data.id) {
+      setSubmitting(false);
       form.reset({
         product_id: data.id,
-        expiration_date: null
-      })
+        expiration_date: null,
+      });
     }
-  }, [data.id])
+  }, [data.id]);
 
-  const onOpenChange = useCallback((open) => {
-    if (!open) {
-      form.reset()
-      close();
-      setSubmitting(false);
-      setData({});
-    }
-  }, [form, setData, close])
+  const onOpenChange = useCallback(
+    (open) => {
+      if (!open) {
+        form.reset();
+        close();
+        setSubmitting(false);
+        setData({});
+      }
+    },
+    [form, setData, close]
+  );
 
   return (
     <Dialog open={data.id} onOpenChange={onOpenChange}>
@@ -60,11 +73,13 @@ const ProductRegistrationDialog = ({ data, setData, close, registerProduct }) =>
             Enter Expiration Date for {data.name}
           </DialogDescription>
           <Form {...form}>
-            <form onSubmit={e => {
-              e.preventDefault();
-              setSubmitting(true);
-              registerProduct(form.getValues());
-            }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSubmitting(true);
+                registerProduct(form.getValues());
+              }}
+            >
               <FormField
                 control={form.control}
                 name="expiration_date"
@@ -85,8 +100,10 @@ const ProductRegistrationDialog = ({ data, setData, close, registerProduct }) =>
                       <PopoverContent align="start">
                         <Calendar
                           mode="single"
-                          selected={field.value ? new Date(field.value) : undefined}
-                          onSelect={date => field.onChange(date)}
+                          selected={
+                            field.value ? new Date(field.value) : undefined
+                          }
+                          onSelect={(date) => field.onChange(date)}
                           initialFocus
                         />
                       </PopoverContent>
@@ -98,13 +115,15 @@ const ProductRegistrationDialog = ({ data, setData, close, registerProduct }) =>
                   </FormItem>
                 )}
               />
-              <Button type="submit" disabled={submitting}>Register Product</Button>
+              <Button type="submit" disabled={submitting}>
+                Register Product
+              </Button>
             </form>
           </Form>
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default ProductRegistrationDialog
+export default ProductRegistrationDialog;

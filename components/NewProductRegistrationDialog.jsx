@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Dialog,
@@ -7,10 +7,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
-import React, { useCallback, useEffect } from 'react'
-import { Button } from "@/components/ui/button"
+import React, { useCallback, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -19,38 +19,47 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useForm } from "react-hook-form"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
 
-const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct }) => {
+const NewProductRegistrationDialog = ({
+  data,
+  setData,
+  close,
+  registerNewProduct,
+}) => {
   const [submitting, setSubmitting] = React.useState(false);
 
   const form = useForm({
     defaultValues: {
       name: "",
       type: "",
-      code: ""
-    }
-  })
+      code: "",
+    },
+  });
 
   useEffect(() => {
     if (data.code) {
+      setSubmitting(false);
       form.reset({
         name: "",
         type: "",
-        code: data.code
-      })
+        code: data.code,
+      });
     }
-  }, [data.code])
-  const onOpenChange = useCallback((open) => {
-    if (!open) {
-      form.reset()
-      close();
-      setSubmitting(false);
-      setData({});
-    }
-  }, [form, setData, close])
+  }, [data.code]);
+  const onOpenChange = useCallback(
+    (open) => {
+      if (!open) {
+        form.reset();
+        close();
+        setSubmitting(false);
+        setData({});
+      }
+    },
+    [form, setData, close]
+  );
 
   return (
     <Dialog open={!!data.code} onOpenChange={onOpenChange}>
@@ -61,11 +70,13 @@ const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct
             Register a new product for code: {data.code}
           </DialogDescription>
           <Form {...form}>
-            <form onSubmit={e => {
-              e.preventDefault();
-              setSubmitting(true);
-              registerNewProduct(form.getValues());
-            }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSubmitting(true);
+                registerNewProduct(form.getValues());
+              }}
+            >
               {/* Product Name: select from existing or enter new */}
               <FormField
                 control={form.control}
@@ -82,12 +93,13 @@ const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct
                       />
                     </FormControl>
                     <datalist id="product-names">
-                      {data.allProducts?.map(product => (
+                      {data.allProducts?.map((product) => (
                         <option key={product.id} value={product.name} />
                       ))}
                     </datalist>
                     <FormDescription>
-                      You can enter a new product name or select from existing ones.
+                      You can enter a new product name or select from existing
+                      ones.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -109,18 +121,19 @@ const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct
                       />
                     </FormControl>
                     <datalist id="product-types">
-                      {data.allProductTypes?.map(type => (
+                      {data.allProductTypes?.map((type) => (
                         <option key={type.id} value={type.name} />
                       ))}
                     </datalist>
                     <FormDescription>
-                      You can enter a new product type or select from existing ones.
+                      You can enter a new product type or select from existing
+                      ones.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField 
+              <FormField
                 control={form.control}
                 name="code"
                 render={({ field }) => (
@@ -131,13 +144,15 @@ const NewProductRegistrationDialog = ({ data, setData, close, registerNewProduct
                   </FormItem>
                 )}
               />
-              <Button type="submit" disabled={submitting}>Register</Button>
+              <Button type="submit" disabled={submitting}>
+                Register
+              </Button>
             </form>
           </Form>
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default NewProductRegistrationDialog
+export default NewProductRegistrationDialog;

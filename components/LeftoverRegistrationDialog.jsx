@@ -45,6 +45,8 @@ export function LeftoverRegistrationDialog({
 
   useEffect(() => {
     if (opened) {
+      setSubmitting(false);
+
       form.reset({
         name: "",
         expiration_date: null,
@@ -56,8 +58,8 @@ export function LeftoverRegistrationDialog({
     (open) => {
       if (!open) {
         form.reset();
-        close();
         setSubmitting(false);
+        close();
       }
     },
     [form, close]

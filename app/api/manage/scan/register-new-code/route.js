@@ -6,6 +6,12 @@ export async function POST(request) {
   const { name, type, code } = data;
   console.log("Received: ", name, type, code);
 
+  if (!name || !code) {
+    return NextResponse.json({
+      error: "Missing name or code"
+    })
+  }
+
   const codeExists = await getProductFromCode(code);
   if (codeExists) {
     return NextResponse.json({

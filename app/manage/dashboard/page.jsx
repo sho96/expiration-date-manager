@@ -68,8 +68,6 @@ export default function ExpirationDashboard() {
     if (!mockFoodItems) return [];
     let items = filterItemsNearExpiration(mockFoodItems, parseInt(daysFilter))
     
-    console.log(mockFoodItems, items);
-
     if (searchTerm) {
       items = items.filter(item => 
         item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -97,7 +95,6 @@ export default function ExpirationDashboard() {
     fetch("/api/manage/dashboard")
     .then(resp => resp.json())
     .then(resp => {
-      console.log(resp);
       return resp;
     })
     .then(resp => setMockFoodItems([
@@ -111,10 +108,6 @@ export default function ExpirationDashboard() {
       })
     ]));
   }, []);
-
-  useEffect(() => {
-    console.log(mockFoodItems);
-  }, [mockFoodItems]);
 
   return (
     <div className="min-h-screen bg-background p-4">
