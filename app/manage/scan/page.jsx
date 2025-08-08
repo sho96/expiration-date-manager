@@ -2,11 +2,11 @@
 import BarcodeScanner from '@/components/BarcodeScanner'
 import NewProductRegistrationDialog from '@/components/NewProductRegistrationDialog';
 import ProductRegistrationDialog from '@/components/ProductRegistrationDialog';
+import { set } from 'date-fns';
 import { Loader, LoaderCircle } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 const page = () => {
-  const stopped = useRef(false);
   const [newProductRegistrationData, setNewProductRegistrationData] = useState({});
   const [productRegistrationData, setProductRegistrationData] = useState({});
   const [scannedData, setScannedData] = useState(false);
@@ -35,7 +35,7 @@ const page = () => {
         });
       })
     },
-    [stopped.current]
+    [productRegistrationData, newProductRegistrationData]
   );
 
   const registerProduct = useCallback(
@@ -55,33 +55,33 @@ const page = () => {
           return;
         }
         console.log(resp);
-        stopped.current = false;
         setProductRegistrationData({});
       })
     },
-    [stopped.current]
+    [productRegistrationData, newProductRegistrationData]
   );
 
   const onUpdate = useCallback(
     (err, result) => {
-      if (stopped.current) return;
+      if (Object.keys({...productRegistrationData, ...newProductRegistrationData}).length > 0) return;
       if (!result) return;
 
       setScannedData(result);
-      stopped.current = true;
+      setNewProductRegistrationData({dummy: true});
       fetch(`/api/manage/scan?code=${result.text}`)
       .then((r) => r.json())
       .then(resp => {
         setScannedData(null);
         if (resp.product_id){
           setProductRegistrationData({id: resp.product_id, ...resp});
-          return;
+          setNewProductRegistrationData({});
         } else {
+          setProductRegistrationData({});
           setNewProductRegistrationData({code: result.text, ...resp});
         }
       })
     },
-    [stopped.current]
+    [productRegistrationData, newProductRegistrationData]
   )
 
   return (
@@ -105,8 +105,8 @@ const page = () => {
           onUpdate={onUpdate}
         />
       </div>
-      <NewProductRegistrationDialog data={newProductRegistrationData} setData={setNewProductRegistrationData} close={() => stopped.current=false} registerNewProduct={registerNewProduct}/>
-      <ProductRegistrationDialog data={productRegistrationData} setData={setProductRegistrationData} close={() => stopped.current=false} registerProduct={registerProduct}/>
+      <NewProductRegistrationDialog data={newProductRegistrationData} setData={setNewProductRegistrationData} close={() => setNewProductRegistrationData({})} registerNewProduct={registerNewProduct}/>
+      <ProductRegistrationDialog data={productRegistrationData} setData={setProductRegistrationData} close={() => setProductRegistrationData({})} registerProduct={registerProduct}/>
     </>
   );
 }
