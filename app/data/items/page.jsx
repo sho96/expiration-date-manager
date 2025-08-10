@@ -1,63 +1,85 @@
-"use client"
+"use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { FoodItemCard } from '@/components/food-item-card'
-import { Search, Filter, Trash2 } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FoodItemCard } from "@/components/food-item-card";
+import { Search, Filter, Trash2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { sortByExpiration } from "@/utils/expiration";
 import { getTodayStr } from "@/utils/client/date";
 import toast from "react-hot-toast";
 
-
 const page = () => {
-  const [searchTerm, setSearchTerm] = useState('')
-    const [categoryFilter, setCategoryFilter] = useState('all')
-    const [mockFoodItems, setMockFoodItems] = useState(null);
-  
-    const filteredItems = useMemo(() => {
-      if (!mockFoodItems) return [];
-      return sortByExpiration(mockFoodItems).map(item => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [mockFoodItems, setMockFoodItems] = useState(null);
+
+  const filteredItems = useMemo(() => {
+    if (!mockFoodItems) return [];
+    return sortByExpiration(mockFoodItems).map((item) => {
       return {
         ...item,
-        expirationDate: new Date(item.expirationDate)
+        expirationDate: new Date(item.expirationDate),
+      };
+    }).filter((item) => {
+      if (searchTerm) {
+        return (
+          item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.category.toLowerCase().includes(searchTerm.toLowerCase())
+        );
       }
+      if (categoryFilter !== "all") {
+        return item.category === categoryFilter;
+      }
+      return true;
     });
-    }, [searchTerm, categoryFilter, mockFoodItems])
-  
-    const categories = mockFoodItems ? [...new Set(mockFoodItems.map(item => item.category))] : []
-  
-    useEffect(() => {
-      fetch("/api/data/items")
-      .then(resp => resp.json())
-      .then(resp => setMockFoodItems(resp));    
-    }, []);
+  }, [searchTerm, categoryFilter, mockFoodItems]);
 
-    const removeItem = useCallback(item => {
+  const categories = mockFoodItems
+    ? [...new Set(mockFoodItems.map((item) => item.category))]
+    : [];
+
+  useEffect(() => {
+    fetch("/api/data/items")
+      .then((resp) => resp.json())
+      .then((resp) => setMockFoodItems(resp));
+  }, []);
+
+  const removeItem = useCallback(
+    (item) => {
       fetch("/api/data/items", {
         method: "DELETE",
         body: JSON.stringify({
           item_id: item.id,
           expired: item.expired,
-          dateStr: getTodayStr()
-        })
+          dateStr: getTodayStr(),
+        }),
       })
-      .then(resp => resp.json())
-      .then(resp => {
-        setMockFoodItems(resp);
-        toast.custom(<div>
-          <Trash2 className="w-4 h-4" />
-          <p>Item removed</p>
-        </div>, { duration: 2000 });
-      })
-    }, [mockFoodItems])
+        .then((resp) => resp.json())
+        .then((resp) => {
+          setMockFoodItems(resp);
+          toast.custom(
+            <div>
+              <Trash2 className="w-4 h-4" />
+              <p>Item removed</p>
+            </div>,
+            { duration: 2000 }
+          );
+        });
+    },
+    [mockFoodItems]
+  );
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Items
-          </h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Items</h1>
           <p className="text-muted-foreground">
             List of items currently registered
           </p>
@@ -122,7 +144,11 @@ const page = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredItems.map((item) => (
-                  <FoodItemCard key={item.id} item={item} onDelete={removeItem} />
+                  <FoodItemCard
+                    key={item.id}
+                    item={item}
+                    onDelete={removeItem}
+                  />
                 ))}
               </div>
             )}

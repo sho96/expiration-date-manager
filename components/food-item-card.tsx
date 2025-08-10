@@ -1,3 +1,5 @@
+"use client";
+
 import { FoodItem } from "../types/food";
 import {
   getDaysUntilExpiration,
@@ -7,10 +9,11 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Package, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 interface onDeleteProps {
-  id: string,
-  expired: boolean
+  id: string;
+  expired: boolean;
 }
 interface FoodItemCardProps {
   item: FoodItem;
@@ -18,6 +21,7 @@ interface FoodItemCardProps {
 }
 
 export function FoodItemCard({ item, onDelete }: FoodItemCardProps) {
+  const [pressed, setPressed] = useState(false);
   const daysUntil = getDaysUntilExpiration(item.expirationDate);
   const status = getExpirationStatus(daysUntil);
 
@@ -74,7 +78,11 @@ export function FoodItemCard({ item, onDelete }: FoodItemCardProps) {
           <Button
             variant={"destructive"}
             size="icon"
-            onClick={() => onDelete({ id: item.id, expired: daysUntil < 0 })}
+            disabled={pressed}
+            onClick={() => {
+              setPressed(true);
+              onDelete({ id: item.id, expired: daysUntil < 0 });
+            }}
             aria-label="Delete item"
             className={"w-[100%] opacity-30 hover:opacity-100"}
           >
