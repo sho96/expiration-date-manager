@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
           <Toaster position="bottom-right" />
           <SidebarProvider defaultOpen={false}>
             <AppSidebar />
-            <main>
+            <main className="min-h-screen w-full max-w-4xl">
               <SidebarTrigger size={5} className={"p-5"}/>
               {children}
             </main>

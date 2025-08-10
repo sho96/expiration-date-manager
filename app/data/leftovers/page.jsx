@@ -123,9 +123,11 @@ const page = () => {
           </CardContent>
         </Card>
         <Card className={"mb-6"}>
-          <Button onClick={() => setLeftoverRegistrationDialogOpened(true)}>
-            + Add Leftover
-          </Button>
+          <CardContent className={"flex justify-center"}>
+            <Button className={"w-[100%]"} onClick={() => setLeftoverRegistrationDialogOpened(true)}>
+              + Add Leftover
+            </Button>
+          </CardContent>
         </Card>
         <Card className={""}>
           <CardHeader className={""}>

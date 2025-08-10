@@ -1,9 +1,12 @@
 import {
+  BarChart,
+  BarChart2,
   Barcode,
   Blocks,
   Calendar,
   Calendar1,
   CalendarX,
+  ChartColumn,
   CircleUser,
   Cookie,
   CookingPot,
@@ -51,7 +54,7 @@ const sideBarContents = [
       },
       {
         title: "History",
-        icon: History,
+        icon: ChartColumn,
       },
     ],
   },

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { CartesianGrid, Bar, BarChart, XAxis, YAxis } from "recharts"
+import { CartesianGrid, Bar, BarChart, XAxis, YAxis, ResponsiveContainer, LineChart } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import colors from "@/components/colors";
 import { Card, CardContent } from "@/components/ui/card";
@@ -75,7 +75,7 @@ export default function FoodWasteChart() {
       });
   }, []);
   return (
-    <div className="w-full max-w-4xl mx-auto p-6">
+    <div className="w-full mx-auto p-6">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-foreground mb-2">
           History
@@ -83,8 +83,6 @@ export default function FoodWasteChart() {
         <p className="text-muted-foreground">
           History of expired vs saved food items
         </p>
-      </div>
-      <div className="mb-6">
       </div>
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-foreground mb-2">
@@ -96,21 +94,21 @@ export default function FoodWasteChart() {
         <div className="mt-4 grid grid-cols-2 gap-4">
           <Card className={`${colors.saved.bgColor} border-l-4 ${colors.saved.color.replace("text-", "border-")}`}>
             <CardContent className="flex flex-col gap-2 items-center justify-center">
-              <h3 className="text-lg font-semibold text-foreground"># of Saved Items</h3>
+              <h3 className="text-lg font-semibold text-foreground"># Saved</h3>
               {/* <p className="text-muted-foreground">{dailyHistory?.reduce((acc, item) => acc + item.saved, 0)}</p> */}
               <h3 className="text-lg font-semibold text-foreground">{dailyHistory?.reduce((acc, item) => acc + item.saved, 0)}</h3>
             </CardContent>
           </Card>
           <Card className={`${colors.expired.bgColor} border-l-4 ${colors.expired.color.replace("text-", "border-")}`}>
             <CardContent className="flex flex-col gap-2 items-center justify-center">
-              <h3 className="text-lg font-semibold text-foreground"># of Expired Items</h3>
+              <h3 className="text-lg font-semibold text-foreground"># Expired</h3>
               {/* <p className="text-muted-foreground">{dailyHistory?.reduce((acc, item) => acc + item.expired, 0)}</p> */}
               <h3 className="text-lg font-semibold text-foreground">{dailyHistory?.reduce((acc, item) => acc + item.expired, 0)}</h3>
             </CardContent>
           </Card>
         </div>
       </div>
-      <ChartContainer config={chartConfig} className="min-h-[400px]">
+      <ResponsiveContainer width="100%" config={chartConfig} aspect={4 / 3}>
         {
           !dailyHistory &&
           <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -128,6 +126,7 @@ export default function FoodWasteChart() {
               right: 12,
               bottom: 12,
             }}
+            className="w-full h-full"
           >
             <CartesianGrid vertical={false} strokeDasharray="3 3" />
             <XAxis
@@ -141,12 +140,12 @@ export default function FoodWasteChart() {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              label={{ value: 'Number of Items', angle: -90, position: 'insideLeft' }}
+              label={{ value: '# items', angle: -90, position: 'insideLeft' }}
             />
-            <ChartTooltip 
+            {/* <ChartTooltip 
               cursor={false} 
               content={<ChartTooltipContent indicator="bar" />} 
-            />
+            /> */}
             <Bar
               dataKey="expired"
               fill={"#a800b7"}
@@ -159,7 +158,7 @@ export default function FoodWasteChart() {
             />
           </BarChart>
         }
-      </ChartContainer>
+      </ResponsiveContainer>
 
       <div className="mb-6 mt-6">
         <h3 className="text-lg font-semibold text-foreground mb-2">
@@ -169,7 +168,7 @@ export default function FoodWasteChart() {
           Monthly history of expired vs saved food items
         </p>
       </div>
-      <ChartContainer config={chartConfig} className="min-h-[400px]">
+      <ResponsiveContainer width="100%" config={chartConfig} aspect={4 / 3}>
         {
           !monthlyHistory &&
           <div className="w-full h-full flex items-center justify-center text-muted-foreground">
@@ -200,12 +199,12 @@ export default function FoodWasteChart() {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              label={{ value: 'Number of Items', angle: -90, position: 'insideLeft' }}
+              label={{ value: '# items', angle: -90, position: 'insideLeft' }}
             />
-            <ChartTooltip 
+            {/* <ChartTooltip 
               cursor={false} 
               content={<ChartTooltipContent indicator="bar" />} 
-            />
+            /> */}
             <Bar
               dataKey="expired"
               fill={"#a800b7"}
@@ -218,7 +217,7 @@ export default function FoodWasteChart() {
             />
           </BarChart>
         }
-      </ChartContainer>
+      </ResponsiveContainer>
     </div>
   );
 }
