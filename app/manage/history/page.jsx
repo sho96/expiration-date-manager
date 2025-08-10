@@ -5,6 +5,7 @@ import * as React from "react";
 import { CartesianGrid, Bar, BarChart, XAxis, YAxis } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import colors from "@/components/colors";
+import { Card, CardContent } from "@/components/ui/card";
 
 const monthNames = [
   "Jan",
@@ -24,7 +25,7 @@ const monthNames = [
 const chartConfig = {
   expired: {
     label: "Expired Items",
-    color: colors.expired.color
+    color: "#a800b7"
   },
   saved: {
     label: "Saved Items",
@@ -57,6 +58,8 @@ export default function FoodWasteChart() {
         setMonthlyHistory(Object.keys(monthlyData).map((month) => ({ month: monthNames[+month - 1], ...monthlyData[month] })));
 
         const dailyData = data.reduce((acc, item) => {
+          // skip if older than 30 days
+          if (new Date(item.date) < new Date(new Date().setDate(new Date().getDate() - 30))) return acc;
           const dateParts = item.date.split("-");
           const date = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
           if (acc[date]) {
@@ -75,20 +78,37 @@ export default function FoodWasteChart() {
     <div className="w-full max-w-4xl mx-auto p-6">
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-foreground mb-2">
-          Food Waste Tracking
+          History
         </h2>
         <p className="text-muted-foreground">
-          Comparison of expired vs saved food items
+          History of expired vs saved food items
         </p>
       </div>
-
+      <div className="mb-6">
+      </div>
       <div className="mb-6">
         <h3 className="text-lg font-semibold text-foreground mb-2">
-          Daily Comparison
+          30 day history
         </h3>
         <p className="text-muted-foreground">
-          Comparison of expired vs saved food items on a daily basis
+          30 day history of expired vs saved food items
         </p>
+        <div className="mt-4 grid grid-cols-2 gap-4">
+          <Card className={`${colors.saved.bgColor} border-l-4 ${colors.saved.color.replace("text-", "border-")}`}>
+            <CardContent className="flex flex-col gap-2 items-center justify-center">
+              <h3 className="text-lg font-semibold text-foreground"># of Saved Items</h3>
+              {/* <p className="text-muted-foreground">{dailyHistory?.reduce((acc, item) => acc + item.saved, 0)}</p> */}
+              <h3 className="text-lg font-semibold text-foreground">{dailyHistory?.reduce((acc, item) => acc + item.saved, 0)}</h3>
+            </CardContent>
+          </Card>
+          <Card className={`${colors.expired.bgColor} border-l-4 ${colors.expired.color.replace("text-", "border-")}`}>
+            <CardContent className="flex flex-col gap-2 items-center justify-center">
+              <h3 className="text-lg font-semibold text-foreground"># of Expired Items</h3>
+              {/* <p className="text-muted-foreground">{dailyHistory?.reduce((acc, item) => acc + item.expired, 0)}</p> */}
+              <h3 className="text-lg font-semibold text-foreground">{dailyHistory?.reduce((acc, item) => acc + item.expired, 0)}</h3>
+            </CardContent>
+          </Card>
+        </div>
       </div>
       <ChartContainer config={chartConfig} className="min-h-[400px]">
         {
@@ -129,7 +149,7 @@ export default function FoodWasteChart() {
             />
             <Bar
               dataKey="expired"
-              fill={"#eb4034"}
+              fill={"#a800b7"}
               radius={4}
             />
             <Bar
@@ -143,10 +163,10 @@ export default function FoodWasteChart() {
 
       <div className="mb-6 mt-6">
         <h3 className="text-lg font-semibold text-foreground mb-2">
-          Monthly Comparison
+          Monthly History
         </h3>
         <p className="text-muted-foreground">
-          Comparison of expired vs saved food items on a monthly basis
+          Monthly history of expired vs saved food items
         </p>
       </div>
       <ChartContainer config={chartConfig} className="min-h-[400px]">
@@ -188,7 +208,7 @@ export default function FoodWasteChart() {
             />
             <Bar
               dataKey="expired"
-              fill={"#eb4034"}
+              fill={"#a800b7"}
               radius={4}
             />
             <Bar

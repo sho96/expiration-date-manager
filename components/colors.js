@@ -1,8 +1,8 @@
 const colors = {
   expired: {
-    color: "text-gray-600 dark:text-gray-300",
-    bgColor: "bg-gray-50 dark:bg-gray-500",
-    borderColor: "border-gray-200 dark:border-gray-700",
+    color: "text-fuchsia-700 dark:text-fuchsia-450",
+    bgColor: "bg-fuchsia-50 dark:bg-fuchsia-950",
+    borderColor: "border-fuchsia-200 dark:border-fuchsia-800",
     raw: ""
   },
   today: {

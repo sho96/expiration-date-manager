@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
       >
         <ThemeProvider attribute={"class"} defaultTheme="system" disableTransitionOnChange enableSystem>
           <Toaster position="bottom-right" />
-          <SidebarProvider>
+          <SidebarProvider defaultOpen={false}>
             <AppSidebar />
             <main>
               <SidebarTrigger size={5} className={"p-5"}/>

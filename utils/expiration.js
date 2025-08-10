@@ -22,7 +22,7 @@ export function getExpirationStatus(daysUntil) {
     }
   } else if (daysUntil <= 3) {
     return {
-      status: 'soon',
+      status: `in ${daysUntil} day${daysUntil === 1 ? '' : 's'}`,
       daysUntilExpiration: daysUntil,
       ...colors.soon
     }

@@ -1,58 +1,71 @@
-"use client"
+"use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { FoodItemCard } from '@/components/food-item-card'
-import { Search, Filter } from 'lucide-react'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FoodItemCard } from "@/components/food-item-card";
+import { Search, Filter } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { sortByExpiration } from "@/utils/expiration";
 import { LeftoverCard } from "@/components/leftover-card";
 import { Button } from "@/components/ui/button";
-import {LeftoverRegistrationDialog} from "@/components/LeftoverRegistrationDialog";
+import { LeftoverRegistrationDialog } from "@/components/LeftoverRegistrationDialog";
 import { getTodayStr } from "@/utils/client/date";
 import toast from "react-hot-toast";
 
 const page = () => {
-  const [leftoverRegistrationDialogOpened, setLeftoverRegistrationDialogOpened] = useState(false);
+  const [
+    leftoverRegistrationDialogOpened,
+    setLeftoverRegistrationDialogOpened,
+  ] = useState(false);
 
-  const [searchTerm, setSearchTerm] = useState('')
-    const [leftovers, setLeftovers] = useState(null);
-  
-    const filteredLeftovers = useMemo(() => {
-      if (!leftovers) return [];
-      return sortByExpiration(leftovers).map(item => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [leftovers, setLeftovers] = useState(null);
+
+  const filteredLeftovers = useMemo(() => {
+    if (!leftovers) return [];
+    return sortByExpiration(leftovers).map((item) => {
       return {
         ...item,
-        expirationDate: new Date(item.expirationDate)
-      }
-    });
-    }, [searchTerm, leftovers])
-    
-    useEffect(() => {
-      fetch("/api/data/leftovers")
-      .then(resp => resp.json())
-      .then(resp => setLeftovers(resp));    
-    }, []);
+        expirationDate: new Date(item.expirationDate),
+      };
+    }).filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  }, [searchTerm, leftovers]);
 
-    const removeLeftover = useCallback(leftover => {
+  useEffect(() => {
+    fetch("/api/data/leftovers")
+      .then((resp) => resp.json())
+      .then((resp) => setLeftovers(resp));
+  }, []);
+
+  const removeLeftover = useCallback(
+    (leftover) => {
       fetch("/api/data/leftovers", {
         method: "DELETE",
         body: JSON.stringify({
           id: leftover.id,
           expired: leftover.expired,
-          dateStr: getTodayStr()
-        })
+          dateStr: getTodayStr(),
+        }),
       })
-      .then(resp => resp.json())
-      .then(resp => {
-        setLeftovers(resp);
-        toast.success(`Removed leftover`, {
-          duration: 3000,
+        .then((resp) => resp.json())
+        .then((resp) => {
+          setLeftovers(resp);
+          toast.success(`Removed leftover`, {
+            duration: 3000,
+          });
         });
-      })
-    }, [leftovers])
+    },
+    [leftovers]
+  );
 
-    const registerLeftover = useCallback(data => {
+  const registerLeftover = useCallback(
+    (data) => {
       console.log(data);
       fetch("/api/data/leftovers", {
         method: "POST",
@@ -61,27 +74,27 @@ const page = () => {
         },
         body: JSON.stringify(data),
       })
-      .then((r) => r.json())
-      .then(resp => {
-        if (resp.error) {
-          alert(resp.error);
-          return;
-        }
-        console.log(resp);
-        setLeftovers(resp);
-        setLeftoverRegistrationDialogOpened(false);
-        toast.success(`Added ${data.name} to leftovers`, {
-          duration: 3000,
+        .then((r) => r.json())
+        .then((resp) => {
+          if (resp.error) {
+            alert(resp.error);
+            return;
+          }
+          console.log(resp);
+          setLeftovers(resp);
+          setLeftoverRegistrationDialogOpened(false);
+          toast.success(`Added ${data.name} to leftovers`, {
+            duration: 3000,
+          });
         });
-      })
-    }, [leftovers])
+    },
+    [leftovers]
+  );
   return (
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Leftovers
-          </h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Leftovers</h1>
           <p className="text-muted-foreground">
             List of leftovers currently registered
           </p>
@@ -110,7 +123,9 @@ const page = () => {
           </CardContent>
         </Card>
         <Card className={"mb-6"}>
-          <Button onClick={() => setLeftoverRegistrationDialogOpened(true)}>+ Add Leftover</Button>
+          <Button onClick={() => setLeftoverRegistrationDialogOpened(true)}>
+            + Add Leftover
+          </Button>
         </Card>
         <Card className={""}>
           <CardHeader className={""}>
@@ -133,13 +148,21 @@ const page = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filteredLeftovers.map((leftover) => (
-                  <LeftoverCard key={leftover.id} leftover={leftover} onDelete={removeLeftover} />
+                  <LeftoverCard
+                    key={leftover.id}
+                    leftover={leftover}
+                    onDelete={removeLeftover}
+                  />
                 ))}
               </div>
             )}
           </CardContent>
         </Card>
-        <LeftoverRegistrationDialog opened={leftoverRegistrationDialogOpened} close={() => setLeftoverRegistrationDialogOpened(false)} registerLeftover={registerLeftover} />
+        <LeftoverRegistrationDialog
+          opened={leftoverRegistrationDialogOpened}
+          close={() => setLeftoverRegistrationDialogOpened(false)}
+          registerLeftover={registerLeftover}
+        />
       </div>
     </div>
   );
