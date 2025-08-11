@@ -62,7 +62,7 @@ export async function GET(request) {
 
   const prompt = getPrompt(items, leftovers, language);
 
-  //console.log("Prompt: ", prompt);
+  console.log("Prompt: ", prompt);
   //console.log("Model: ", model);
   const stream = await generate(prompt, model);
 

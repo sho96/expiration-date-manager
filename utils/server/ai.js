@@ -12,6 +12,11 @@ export async function generate(prompt, model="qwen-3-32b", format=null) {
     stream: true,
   });
 
+  if (stream.error) {
+    throw new Error(stream.error.message);
+  }
+  console.log("Stream: ", stream);
+
   return chatCompletionToReadableStream(stream);
 }
 
