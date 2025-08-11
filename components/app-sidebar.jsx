@@ -122,7 +122,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href="/">
+              <Link href="/manage/dashboard">
                 <Image
                   src="/icon.png"
                   width={24}

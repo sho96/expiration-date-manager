@@ -6,14 +6,15 @@ const protectedRoutes = ['/dashboard']
  
 export default async function middleware(req) {
   const path = req.nextUrl.pathname
+
+  if(path == "/"){
+    return NextResponse.next()
+  }
+
   const session = (await cookies()).get('session')?.value
 
   if (!session || session != process.env.SESSION_KEY) {
     return NextResponse.redirect(new URL('/', req.nextUrl))
-  }
-
-  if(path == "/"){
-    return NextResponse.redirect(new URL('/manage/dashboard', req.nextUrl))
   }
  
   return NextResponse.next()
