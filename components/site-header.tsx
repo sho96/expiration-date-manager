@@ -49,14 +49,14 @@ export function SiteHeader() {
           <Breadcrumb>
             <BreadcrumbList className="flex items-center gap-1.5">
               {breadcrumbItems.map((item, index) => (
-                <>
-                  <BreadcrumbItem key={index} className={"inline-flex items-center gap-1.5"}>
+                <div key={index} className="flex items-center gap-1.5">
+                  <BreadcrumbItem className={"inline-flex items-center gap-1.5"}>
                     <BreadcrumbPage href={`/${item}`} className={"text-foreground font-normal"}>{item}</BreadcrumbPage>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator className={"inline-flex items-center gap-1.5"}>
                     <ChevronRight />
                   </BreadcrumbSeparator>
-                </>
+                </div>
               ))}
             </BreadcrumbList>
           </Breadcrumb>
