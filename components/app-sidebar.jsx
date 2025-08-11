@@ -44,6 +44,7 @@ import {
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
 const sideBarContents = [
   {
@@ -106,26 +107,45 @@ const sideBarContents = [
 export function AppSidebar() {
   const { state } = useSidebar();
 
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
+
   return (
     <Sidebar
-      className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
+      className="overflow-x-hidden top-(--header-height) h-[calc(100svh-var(--header-height))]!"
       side="left"
       variant="floating"
       collapsible="icon"
     >
       <SidebarHeader>
-        <h1 className="text-md flex flex-1 items-center gap-2">
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/icon.png"
-              width={25}
-              height={25}
-              className="rounded-full"
-              alt="Logo"
-            />
-          </Link>
-          {state === "open" && "Expiration Tracker"}
-        </h1>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <Link href="/">
+                <Image
+                  src="/icon.png"
+                  width={24}
+                  height={24}
+                  className="rounded-full"
+                  alt="Logo"
+                />
+                <span>Expiration Tracker</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
+        {/* <Link href="/" className="text-md flex items-center justify-center gap-2 min-w-fit">
+          <Image
+            src="/icon.png"
+            width={25}
+            height={25}
+            className="rounded-full"
+            alt="Logo"
+          />
+          { state == "expanded" && "Expiration Tracker"}
+        </Link> */}
       </SidebarHeader>
       <SidebarContent>
         {sideBarContents.map(({ title, items }) => (

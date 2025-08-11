@@ -1,6 +1,6 @@
 "use client";
 
-import { SidebarIcon } from "lucide-react";
+import { ChevronRight, SidebarIcon } from "lucide-react";
 import { Breadcrumb, BreadcrumbList, BreadcrumbSeparator, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage,  } from "@/components/ui/breadcrumb";
 
 import { Button } from "@/components/ui/button";
@@ -50,10 +50,12 @@ export function SiteHeader() {
             <BreadcrumbList className="flex items-center gap-1.5">
               {breadcrumbItems.map((item, index) => (
                 <>
-                  <BreadcrumbItem key={index}>
-                    <BreadcrumbPage href={`/${item}`}>{item}</BreadcrumbPage>
+                  <BreadcrumbItem key={index} className={"inline-flex items-center gap-1.5"}>
+                    <BreadcrumbPage href={`/${item}`} className={"text-foreground font-normal"}>{item}</BreadcrumbPage>
                   </BreadcrumbItem>
-                  <BreadcrumbSeparator />
+                  <BreadcrumbSeparator className={"inline-flex items-center gap-1.5"}>
+                    <ChevronRight />
+                  </BreadcrumbSeparator>
                 </>
               ))}
             </BreadcrumbList>
