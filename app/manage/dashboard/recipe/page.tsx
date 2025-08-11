@@ -1,10 +1,13 @@
 "use client";
 
+import response_styles from "./response.module.css";
+
 import { useState, useEffect, useCallback } from "react";
 import { streamingFetch } from "@/utils/client/streaming";
 
 import { micromark } from "micromark";
 import { gfmTable, gfmTableHtml } from "micromark-extension-gfm-table";
+import { gfmHtml } from "micromark-extension-gfm";
 import {
   Select,
   SelectTrigger,
@@ -19,7 +22,7 @@ import { CircleArrowLeft } from "lucide-react";
 async function markdownToHtml(markdown: string) {
   const output: string = micromark(markdown, {
     extensions: [gfmTable()],
-    htmlExtensions: [gfmTableHtml()],
+    htmlExtensions: [gfmTableHtml(), gfmHtml()],
   });
   return output;
 }
@@ -99,7 +102,7 @@ export default function RenderStreamData() {
   }, [data]);
   
   useEffect(() => {
-    //console.log(html);
+    console.log(html);
   }, [html])
 
   return (
@@ -190,7 +193,7 @@ export default function RenderStreamData() {
         )}
         {html && (
           <div
-            className="prose dark:prose-invert text-xs text-foreground"
+            className={`prose prose-invert max-w-none ${response_styles.response}`}
             dangerouslySetInnerHTML={{ __html: html }}
           />
         )}

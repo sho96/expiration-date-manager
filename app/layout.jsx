@@ -3,7 +3,7 @@ import { SidebarProvider, SidebarRail, SidebarTrigger } from "@/components/ui/si
 import { ThemeProvider } from "@/components/theme-provider";
 import ThemeToggle from "@/components/theme-toggle";
 
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, DotGothic16 } from "next/font/google";
 import "./globals.css";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const dotGothic = DotGothic16({
+  variable: "--font-dot-gothic",
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
+
+
 export const metadata = {
   title: "Expiration Tracker",
   description: "Never let anything go to waste!",
@@ -31,7 +39,7 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/icon.png" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${dotGothic.variable} antialiased`}
       >
         <ThemeProvider attribute={"class"} defaultTheme="system" disableTransitionOnChange enableSystem>
           <Toaster position="bottom-right" />
