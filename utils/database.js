@@ -141,6 +141,7 @@ export async function incrementNumberOfExpirations(dateStr, n=1){ // YYYY-MM-DD
 export async function incrementNumberOfSaves(dateStr, n=1){ // YYYY-MM-DD
   //increment history record's history.saved with today's history.date
   const history = await getOrCreateTodaysHistoryRecord(dateStr);
+  console.log("history: ", JSON.stringify(history));
   const updateResult = await supabase
     .from('history')
     .update({ saved: history.saved + n })
@@ -148,6 +149,7 @@ export async function incrementNumberOfSaves(dateStr, n=1){ // YYYY-MM-DD
     .select()
     .single();
   if (updateResult.error) throw updateResult.error;
+  console.log("updateResult: ", JSON.stringify(updateResult));
   return updateResult.data;
 }
 

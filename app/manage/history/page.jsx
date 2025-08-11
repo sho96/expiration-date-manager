@@ -140,7 +140,7 @@ export default function FoodWasteChart() {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              label={{ value: '# items', angle: -90, position: 'insideLeft' }}
+              label={{ value: '# items', angle: -90, position: 'left' }}
             />
             {/* <ChartTooltip 
               cursor={false} 
@@ -199,7 +199,7 @@ export default function FoodWasteChart() {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              label={{ value: '# items', angle: -90, position: 'insideLeft' }}
+              label={{ value: '# items', angle: -90, position: 'left' }}
             />
             {/* <ChartTooltip 
               cursor={false} 
@@ -223,7 +223,6 @@ export default function FoodWasteChart() {
 }
 
 /*const [history, setHistory] = React.useState([]);
-
   React.useEffect(() => {
     fetch("/api/manage/history")
       .then((res) => res.json())

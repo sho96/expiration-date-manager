@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { FoodItem } from '@/types/food'
 import { filterItemsNearExpiration, sortByExpiration } from '@/utils/expiration'
 import { SummaryCards } from '@/components/summary-cards'
 import { FoodItemCard } from '@/components/food-item-card'
@@ -9,54 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Search, Filter } from 'lucide-react'
-import useSWR from 'swr'
 import { LeftoverCard } from '@/components/leftover-card'
-
-// Mock data for demonstration
-/* const mockFoodItems: FoodItem[] = [
-  {
-    id: '1',
-    name: 'Milk',
-    category: 'Dairy',
-    expirationDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // Expired 1 day ago
-  },
-  {
-    id: '2',
-    name: 'Bread',
-    category: 'Bakery',
-    expirationDate: new Date(Date.now()), // Expires today
-  },
-  {
-    id: '3',
-    name: 'Yogurt',
-    category: 'Dairy',
-    expirationDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // Expires in 1 day
-  },
-  {
-    id: '4',
-    name: 'Bananas',
-    category: 'Fruits',
-    expirationDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // Expires in 2 days
-  },
-  {
-    id: '5',
-    name: 'Chicken Breast',
-    category: 'Meat',
-    expirationDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // Expires in 3 days
-  },
-  {
-    id: '6',
-    name: 'Lettuce',
-    category: 'Vegetables',
-    expirationDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // Expires in 5 days
-  },
-  {
-    id: '7',
-    name: 'Eggs',
-    category: 'Dairy',
-    expirationDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Expires in 7 days
-  }
-] */
 
 export default function ExpirationDashboard() {
   const [searchTerm, setSearchTerm] = useState('')
