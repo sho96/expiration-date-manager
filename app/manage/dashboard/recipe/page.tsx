@@ -58,7 +58,7 @@ export default function RenderStreamData() {
         try {
           joined += value;
           count++;
-          if (count % 10 === 0) {
+          if (count % 30 === 0) {
             setData((prev) => [...prev, joined]);
             joined = "";
           }

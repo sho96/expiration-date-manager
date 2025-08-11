@@ -14,6 +14,16 @@ export async function* streamingFetch( input: RequestInfo | URL, init?: RequestI
         catch( e:any ) {
             console.warn( e.message )
         }
+      
     }
 }
 
+export function decodeVercelAiStream(value: string) {
+/*
+data: "ン、ピーマンなど）\n- 油\n"
+data: "- ソース（お好みで）\n\n**"
+*/
+    const datas = value.split("\n").filter((data) => data.startsWith("data: ")).map((data) => data.slice(7, -1));
+    console.log(datas)
+    return datas.join("");
+}
