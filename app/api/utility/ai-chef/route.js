@@ -38,7 +38,7 @@ const termTable = {
   prompt: {
     en: "Generate a recipe for the given items and leftovers",
     es: "Genera una receta para los artículos y residuos dados",
-    ja: "下の品目と残り物からレシピを生成してください",
+    ja: "下の品目と残り物を使ってレシピを生成してください",
   },
 };
 

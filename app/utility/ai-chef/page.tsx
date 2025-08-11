@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { CircleArrowLeft } from "lucide-react";
+import { ChefHat, CircleArrowLeft } from "lucide-react";
 
 async function markdownToHtml(markdown: string) {
   const output: string = micromark(markdown, {
@@ -28,7 +28,7 @@ async function markdownToHtml(markdown: string) {
 }
 
 export default function RenderStreamData() {
-  const [data, setData] = useState<any[]>(["Click Generate!"]);
+  const [data, setData] = useState<any[]>(["## Click Generate!"]);
   const [html, setHtml] = useState("");
   //cookie to store language and model
   const [language, setLanguage] = useState("en");
@@ -52,7 +52,7 @@ export default function RenderStreamData() {
     setHtml(null);
     const asyncFetch = async () => {
       const stream = streamingFetch(
-        `/api/manage/dashboard/recipe?language=${language}&model=${model}`
+        `/api/utility/ai-chef?language=${language}&model=${model}`
       );
 
       let count = 0;
@@ -107,82 +107,79 @@ export default function RenderStreamData() {
 
   return (
     <div className="min-h-screen bg-background p-4">
-      <div className="mb-4">
-        <a href="/manage/dashboard" className="flex text-muted-foreground hover:text-foreground">
-          <CircleArrowLeft className="mr-2" />
-          Back to Dashboard
-        </a>
-      </div>
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground; mb-2">
-            Recipe Generator
+          <h1 className="text-3xl font-bold text-foreground; mb-3 flex items-center">
+            <ChefHat size={30} className="mr-2"/>
+            AI Chef
           </h1>
           <p className="text-muted-foreground">
             Let AI generate recipes for you!
           </p>
         </div>
-        <div className="mb-4">
-          <Select value={language} onValueChange={setLanguage}>
-            <SelectTrigger className="w-48">
-              <SelectValue placeholder="Select language" />
-            </SelectTrigger>
-            <SelectContent className={""}>
-              <SelectItem value="en" className={""}>
-                English
-              </SelectItem>
-              <SelectItem value="es" className={""}>
-                Spanish
-              </SelectItem>
-              <SelectItem value="ja" className={""}>
-                Japanese
-              </SelectItem>
-              {/* Add more languages as needed */}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="mb-4">
-          <Select value={model} onValueChange={setModel}>
-            <SelectTrigger className="w-48">
-              <SelectValue placeholder="Select model" />
-            </SelectTrigger>
-            <SelectContent className={""}>
-              <SelectItem value="qwen-3-235b-a22b-instruct-2507" className={""}>
-                qwen-3-235b-a22b-instruct-2507
-              </SelectItem>
-              <SelectItem value="qwen-3-235b-a22b-thinking-2507" className={""}>
-                qwen-3-235b-a22b-thinking-2507
-              </SelectItem>
-              <SelectItem value="qwen-3-coder-480b" className={""}>
-                qwen-3-coder-480b
-              </SelectItem>
-              <SelectItem value="llama-3.3-70b" className={""}>
-                llama-3.3-70b
-              </SelectItem>
-              <SelectItem value="gpt-oss-120b" className={""}>
-                gpt-oss-120b
-              </SelectItem>
-              <SelectItem value="qwen-3-32b" className={""}>
-                qwen-3-32b
-              </SelectItem>
-              <SelectItem value="llama3.1-8b" className={""}>
-                llama3.1-8b
-              </SelectItem>
-              <SelectItem value="llama-4-scout-17b-16e-instruct" className={""}>
-                llama-4-scout-17b-16e-instruct
-              </SelectItem>
-              <SelectItem
-                value="llama-4-maverick-17b-128e-instruct"
-                className={""}
-              >
-                llama-4-maverick-17b-128e-instruct
-              </SelectItem>
-              {/* Add more models as needed */}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="mb-4">
-          <Button variant={"outline"} size={"default"} disabled={!html} type="button" className="" onClick={handleGenerate}>Generate</Button>
+        <div className="mb-8 flex flex-col gap-4 items-start w-full max-w-100">
+          <div className="flex flex-row gap-2 items-center">
+            <label htmlFor="language" className="shrink">Language: </label>
+            <Select value={language} onValueChange={setLanguage}>
+              <SelectTrigger className="grow">
+                <SelectValue placeholder="Select language" />
+              </SelectTrigger>
+              <SelectContent className="grow">
+                <SelectItem value="en" className={""}>
+                  English
+                </SelectItem>
+                <SelectItem value="es" className={""}>
+                  Spanish
+                </SelectItem>
+                <SelectItem value="ja" className={""}>
+                  Japanese
+                </SelectItem>
+                {/* Add more languages as needed */}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <label htmlFor="model" className="">Chef: </label>
+            <Select value={model} onValueChange={setModel}>
+              <SelectTrigger className="grow">
+                <SelectValue placeholder="Select model" />
+              </SelectTrigger>
+              <SelectContent className="grow">
+                <SelectItem value="qwen-3-235b-a22b-instruct-2507" className={""}>
+                  qwen-3-235b-a22b-instruct-2507
+                </SelectItem>
+                <SelectItem value="qwen-3-235b-a22b-thinking-2507" className={""}>
+                  qwen-3-235b-a22b-thinking-2507
+                </SelectItem>
+                <SelectItem value="qwen-3-coder-480b" className={""}>
+                  qwen-3-coder-480b
+                </SelectItem>
+                <SelectItem value="llama-3.3-70b" className={""}>
+                  llama-3.3-70b
+                </SelectItem>
+                <SelectItem value="gpt-oss-120b" className={""}>
+                  gpt-oss-120b
+                </SelectItem>
+                <SelectItem value="qwen-3-32b" className={""}>
+                  qwen-3-32b
+                </SelectItem>
+                <SelectItem value="llama3.1-8b" className={""}>
+                  llama3.1-8b
+                </SelectItem>
+                <SelectItem value="llama-4-scout-17b-16e-instruct" className={""}>
+                  llama-4-scout-17b-16e-instruct
+                </SelectItem>
+                <SelectItem
+                  value="llama-4-maverick-17b-128e-instruct"
+                  className={""}
+                >
+                  llama-4-maverick-17b-128e-instruct
+                </SelectItem>
+                {/* Add more models as needed */}
+              </SelectContent>
+            </Select>
+          </div>
+          <Button variant={"outline"} size={"default"} disabled={!html} type="button" className="w-full" onClick={handleGenerate}>Generate</Button>
         </div>
         {!html && (
           <div className="text-muted-foreground flex flex-col gap-2">

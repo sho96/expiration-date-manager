@@ -3,10 +3,12 @@ import {
   BarChart2,
   Barcode,
   Blocks,
+  BottleWine,
   Calendar,
   Calendar1,
   CalendarX,
   ChartColumn,
+  ChefHat,
   CircleUser,
   Cookie,
   CookingPot,
@@ -19,6 +21,7 @@ import {
   Search,
   Settings,
   Shapes,
+  ShoppingBasket,
   Users,
   WalletMinimal,
 } from "lucide-react";
@@ -33,6 +36,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
+  SidebarFooter,
+  SidebarInset,
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 
@@ -46,7 +51,7 @@ const sideBarContents = [
       },
       {
         title: "Manual Registration",
-        icon: PackagePlus,
+        icon: ShoppingBasket,
       },
       {
         title: "Dashboard",
@@ -55,6 +60,15 @@ const sideBarContents = [
       {
         title: "History",
         icon: ChartColumn,
+      },
+    ],
+  },
+  {
+    title: "Utility",
+    items: [
+      {
+        title: "AI Chef",
+        icon: ChefHat,
       },
     ],
   },
@@ -75,11 +89,11 @@ const sideBarContents = [
       },
       {
         title: "Items",
-        icon: Cookie,
+        icon: BottleWine,
       },
       {
         title: "Leftovers",
-        icon: CookingPot,
+        icon: Cookie,
       },
     ],
   },
@@ -87,18 +101,12 @@ const sideBarContents = [
 
 export function AppSidebar() {
   return (
-    <Sidebar side="left" variant="floating" collapsible="icon">
-      <SidebarHeader>
-        <a href="/">
-          <Image
-            src="/icon.png"
-            width={40}
-            height={40}
-            className="rounded-full"
-            alt="Logo"
-          />
-        </a>
-      </SidebarHeader>
+    <Sidebar
+      className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
+      side="left"
+      variant="floating"
+      collapsible="icon"
+    >
       <SidebarContent>
         {sideBarContents.map(({ title, items }) => (
           <SidebarGroup key={title}>
@@ -124,22 +132,19 @@ export function AppSidebar() {
           </SidebarGroup>
         ))}
         {/* logout */}
-        <SidebarGroup>
-          <SidebarGroupLabel>Logout</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="/api/logout">
-                    <CircleUser />
-                    <span>Logout</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <a href="/api/logout">
+                <CircleUser />
+                <span>Logout</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   );
 }

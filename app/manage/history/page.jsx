@@ -6,6 +6,7 @@ import { CartesianGrid, Bar, BarChart, XAxis, YAxis, ResponsiveContainer, LineCh
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import colors from "@/components/colors";
 import { Card, CardContent } from "@/components/ui/card";
+import { ChartColumn } from "lucide-react";
 
 const monthNames = [
   "Jan",
@@ -77,9 +78,11 @@ export default function FoodWasteChart() {
   return (
     <div className="w-full mx-auto p-6">
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-foreground mb-2">
+        <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center">
+          <ChartColumn size={30} className="mr-3"/>
+          
           History
-        </h2>
+        </h1>
         <p className="text-muted-foreground">
           History of expired vs saved food items
         </p>

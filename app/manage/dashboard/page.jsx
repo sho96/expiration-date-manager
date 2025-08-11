@@ -7,7 +7,7 @@ import { FoodItemCard } from '@/components/food-item-card'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Search, Filter, CircleArrowRight } from 'lucide-react'
+import { Search, Filter, CircleArrowRight, LayoutDashboard } from 'lucide-react'
 import { LeftoverCard } from '@/components/leftover-card'
 
 export default function ExpirationDashboard() {
@@ -65,10 +65,9 @@ export default function ExpirationDashboard() {
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground; mb-2">Food Expiration Dashboard</h1>
+          <h1 className="text-3xl font-bold text-foreground; mb-2 flex items-center"><LayoutDashboard size={30} className="mr-3" /> Dashboard</h1>
           <p className="text-muted-foreground">Track your food items and never let anything go to waste</p>
         </div>
-        <a href="/manage/dashboard/recipe" className="flex items-center gap-2 mb-4 text-foreground hover:underline">Try the recipe generator! <CircleArrowRight className="w-5 h-5" /></a>
         <SummaryCards items={filteredItems} />
 
         <Card className="mb-6">

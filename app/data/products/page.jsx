@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, Blocks } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -55,7 +55,7 @@ const page = () => {
     <div className="min-h-screen bg-background p-4">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Products</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2 flex items-center"><Blocks size={30} className="mr-3" /> Products</h1>
           <p className="text-muted-foreground">List of products currently registered</p>
         </div>
 
