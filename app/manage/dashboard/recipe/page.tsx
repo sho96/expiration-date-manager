@@ -147,7 +147,7 @@ export default function RenderStreamData() {
               <SelectValue placeholder="Select model" />
             </SelectTrigger>
             <SelectContent className={""}>
-              <SelectItem value="qwen-3-32b" className={""}>
+              <SelectItem value="qwen-3-235b-a22b-instruct-2507" className={""}>
                 qwen-3-235b-a22b-instruct-2507
               </SelectItem>
               <SelectItem value="qwen-3-235b-a22b-thinking-2507" className={""}>
