@@ -58,7 +58,6 @@ export default function RootLayout({ children }) {
               <main className="min-h-screen w-full max-w-4xl">{children}</main>
             </div>
           </SidebarProvider>
-          <ThemeToggle />
         </ThemeProvider>
       </body>
     </html>

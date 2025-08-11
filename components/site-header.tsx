@@ -4,6 +4,7 @@ import { SidebarIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import ThemeToggle from "@/components/theme-toggle";
 import { useSidebar } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,6 +36,7 @@ export function SiteHeader() {
           </Link>
           Expiration Tracker
         </h1>
+        <ThemeToggle />
       </div>
     </header>
   );
