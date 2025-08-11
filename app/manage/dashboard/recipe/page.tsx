@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { CircleArrowLeft } from "lucide-react";
 
 async function markdownToHtml(markdown: string) {
-  const output = micromark(markdown, {
+  const output: string = micromark(markdown, {
     extensions: [gfmTable()],
     htmlExtensions: [gfmTableHtml()],
   });
@@ -97,6 +97,10 @@ export default function RenderStreamData() {
     };
     asyncFetch();
   }, [data]);
+  
+  useEffect(() => {
+    //console.log(html);
+  }, [html])
 
   return (
     <div className="min-h-screen bg-background p-4">
@@ -186,7 +190,7 @@ export default function RenderStreamData() {
         )}
         {html && (
           <div
-            className="prose dark:prose-invert"
+            className="prose dark:prose-invert text-xs text-foreground"
             dangerouslySetInnerHTML={{ __html: html }}
           />
         )}
