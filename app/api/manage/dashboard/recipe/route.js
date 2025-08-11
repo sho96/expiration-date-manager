@@ -116,7 +116,7 @@ export async function GET(request) {
     },
   });
 }
-export async function GET2() {
+async function GET2() {
   // TextEncoder objects turn text content
   // into streams of UTF-8 characters.
   // You'll add this encoder to your stream
