@@ -65,7 +65,7 @@ const page = () => {
         .then((resp) => {
           setMockFoodItems(resp);
           toast.custom(
-            <div>
+            <div className="flex items-center gap-2">
               <Trash2 className="w-4 h-4" />
               <p>Item removed</p>
             </div>,

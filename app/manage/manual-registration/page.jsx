@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import ProductRegistrationDialog from "@/components/ProductRegistrationDialog";
 import toast from "react-hot-toast";
+import NewProductRegistrationDialogWithoutCode from "@/components/NewProductRegistrationDialogWithoutCode";
 
 const page = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,6 +21,7 @@ const page = () => {
   const [products, setProducts] = useState(null);
 
   const [productRegistrationData, setProductRegistrationData] = useState({});
+  const [newProductRegistrationDialogOpened, setNewProductRegistrationDialogOpened] = useState(false);
 
   const filteredProducts = useMemo(() => {
     if (!products) return [];
@@ -70,10 +72,41 @@ const page = () => {
           console.log(resp);
           setProductRegistrationData({});
           setProducts(resp);
-          toast.success(`Added ${resp.filter((item) => item.id === data.product_id)[0].name}`);
+          toast.success(
+            `Added ${
+              resp.filter((item) => item.id === data.product_id)[0].name
+            }`
+          );
         });
     },
     [products]
+  );
+  const registerNewProduct = useCallback(
+    (data) => {
+      console.log(data);
+      fetch(`/api/manage/manual-registration/new`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((r) => r.json())
+        .then((resp) => {
+          if (resp.error) {
+            alert(resp.error);
+            setNewProductRegistrationDialogOpened(false);
+            return;
+          }
+          console.log(resp);
+          setNewProductRegistrationDialogOpened(false);
+          setProducts(resp);
+          toast.success(
+            `Added ${data.name}`
+          );
+        });
+    },
+    [productRegistrationData, newProductRegistrationDialogOpened]
   );
 
   useEffect(() => {
@@ -97,7 +130,6 @@ const page = () => {
             Add an item from the list of currently registered products
           </p>
         </div>
-
         <Card className="mb-6">
           <CardHeader className={""}>
             <CardTitle className="flex items-center gap-2">
@@ -134,6 +166,16 @@ const page = () => {
                 </SelectContent>
               </Select>
             </div>
+          </CardContent>
+        </Card>
+        <Card className={"mb-6"}>
+          <CardContent className={"flex justify-center"}>
+            <Button
+              className={"w-[100%]"}
+              onClick={() => setNewProductRegistrationDialogOpened(true)}
+            >
+              + Add Product
+            </Button>
           </CardContent>
         </Card>
         <div className="overflow-x-auto rounded-lg shadow border-1 border-muted-foreground">
@@ -183,6 +225,13 @@ const page = () => {
           setData={setProductRegistrationData}
           close={() => setProductRegistrationData({})}
           registerProduct={registerProduct}
+        />
+        <NewProductRegistrationDialogWithoutCode
+          allProductTypes={categories}
+          allProducts={products}
+          open={newProductRegistrationDialogOpened}
+          close={() => setNewProductRegistrationDialogOpened(false)}
+          registerNewProduct={registerNewProduct}
         />
       </div>
     </div>
