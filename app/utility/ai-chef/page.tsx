@@ -18,6 +18,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ChefHat, CircleArrowLeft } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 async function markdownToHtml(markdown: string) {
   const output: string = micromark(markdown, {
@@ -33,6 +34,7 @@ export default function RenderStreamData() {
   //cookie to store language and model
   const [language, setLanguage] = useState("en");
   const [model, setModel] = useState("gpt-oss-120b");
+  const [postscript, setPostscript] = useState("");
 
   useEffect(() => {
     if (!localStorage){
@@ -52,7 +54,7 @@ export default function RenderStreamData() {
     setHtml(null);
     const asyncFetch = async () => {
       const stream = streamingFetch(
-        `/api/utility/ai-chef?language=${language}&model=${model}`
+        `/api/utility/ai-chef?language=${language}&model=${model}&type=dish&ps=${postscript}`
       );
 
       let count = 0;
@@ -73,13 +75,13 @@ export default function RenderStreamData() {
       setData((prev) => [...prev, joined]);
     };
     asyncFetch();
-  }, [language, model]);
+  }, [language, model, postscript]);
   const handleGenerateDessertRecipe = useCallback(() => {
     setData([]);
     setHtml(null);
     const asyncFetch = async () => {
       const stream = streamingFetch(
-        `/api/utility/ai-chef?language=${language}&model=${model}&type=dessert`
+        `/api/utility/ai-chef?language=${language}&model=${model}&type=dessert&ps=${postscript}`
       );
 
       let count = 0;
@@ -100,7 +102,7 @@ export default function RenderStreamData() {
       setData((prev) => [...prev, joined]);
     };
     asyncFetch();
-  }, [language, model]);
+  }, [language, model, postscript]);
 
   useEffect(() => {
     const asyncFetch = async () => {
@@ -205,6 +207,10 @@ export default function RenderStreamData() {
                 {/* Add more models as needed */}
               </SelectContent>
             </Select>
+          </div>
+          <div className="flex flex-row gap-2 items-center">
+            <label htmlFor="postscript" className="">P.S. </label>
+            <Input type="text" placeholder="Add Postscript..." className="" value={postscript} onChange={(e) => setPostscript(e.target.value)} />
           </div>
           <Button variant={"outline"} size={"default"} disabled={!html} type="button" className="w-full" onClick={handleGenerateRecipe}>Generate Dish</Button>
           <Button variant={"outline"} size={"default"} disabled={!html} type="button" className="w-full" onClick={handleGenerateDessertRecipe}>Generate Dessert</Button>

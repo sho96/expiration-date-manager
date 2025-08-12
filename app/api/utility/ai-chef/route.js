@@ -35,21 +35,29 @@ const termTable = {
     es: "residuos",
     ja: "残り物",
   },
+  none:{
+    en: "None",
+    es: "Ninguno",
+    ja: "なし",
+  },
   prompt: {
     dish: {
-      en: "Generate a recipe for the given items and leftovers",
-      es: "Genera una receta para los artículos y residuos dados",
-      ja: "下の品目と残り物を使ってレシピを生成してください",
+      en: "Generate a recipe for the given items and leftovers. Respond in English",
+      es: "Genera una receta para los artículos y residuos dados. Responde en español",
+      ja: "下の品目と残り物を使ったレシピを生成してください。日本語でまとめてください",
     },
     dessert: {
-      en: "Generate a dessert recipe for the given items and leftovers",
-      es: "Genera una receta de postre para los artículos y residuos dados",
-      ja: "下の品目と残り物を使ってデザートレシピを生成してください",
+      en: "Generate a dessert recipe for the given items and leftovers. Respond in English",
+      es: "Genera una receta de postre para los artículos y residuos dados. Responde en español",
+      ja: "下の品目と残り物を使ったデザートレシピを生成してください。日本語でまとめてください",
     },
   },
 };
 
 function formattedItemsToString(items, language = "en") {
+  if (items.length == 0) {
+    return termTable["none"][language];
+  }
   return items
     .map(
       (item) =>
@@ -59,6 +67,9 @@ function formattedItemsToString(items, language = "en") {
 }
 
 function formattedLeftoversToString(leftovers, language = "en") {
+  if (leftovers.length == 0) {
+    return termTable["none"][language];
+  }
   return leftovers
     .map(
       (leftover) =>
@@ -67,12 +78,14 @@ function formattedLeftoversToString(leftovers, language = "en") {
     .join("\n");
 }
 
-function getPrompt(items, leftovers, type, language = "en") {
+function getPrompt(items, leftovers, type, ps, language = "en") {
   return `${termTable["prompt"][type][language]}\n\n${
     termTable["items"][language]
   }:\n${formattedItemsToString(items, language)}\n\n${
     termTable["leftovers"][language]
-  }:\n${formattedLeftoversToString(leftovers, language)}`;
+  }:\n${formattedLeftoversToString(leftovers, language)}
+  ${ps == "" ? "" : `\n\nP.S.: ${ps}`}
+  `;
 }
 
 export async function GET(request) {
@@ -80,6 +93,7 @@ export async function GET(request) {
   const language = url.searchParams.get("language") || "en";
   const model = url.searchParams.get("model") || "gpt-oss-120b";
   const type = url.searchParams.get("type") == "dessert" ? "dessert" : "dish";
+  const ps = url.searchParams.get("ps") || "";
 
   const items = await getAllItemsFormatted();
   const leftovers = await getLeftoversFormatted();
@@ -87,7 +101,7 @@ export async function GET(request) {
   //console.log("Items: ", JSON.stringify(items));
   //console.log("Leftovers: ", JSON.stringify(leftovers));
 
-  const prompt = getPrompt(items, leftovers, type, language);
+  const prompt = getPrompt(items, leftovers, type, ps, language);
 
   console.log("Prompt: ", prompt);
   //console.log("Model: ", model);
