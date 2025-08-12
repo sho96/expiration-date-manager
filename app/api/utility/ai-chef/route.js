@@ -36,9 +36,16 @@ const termTable = {
     ja: "残り物",
   },
   prompt: {
-    en: "Generate a recipe for the given items and leftovers",
-    es: "Genera una receta para los artículos y residuos dados",
-    ja: "下の品目と残り物を使ってレシピを生成してください",
+    dish: {
+      en: "Generate a recipe for the given items and leftovers",
+      es: "Genera una receta para los artículos y residuos dados",
+      ja: "下の品目と残り物を使ってレシピを生成してください",
+    },
+    dessert: {
+      en: "Generate a dessert recipe for the given items and leftovers",
+      es: "Genera una receta de postre para los artículos y residuos dados",
+      ja: "下の品目と残り物を使ってデザートレシピを生成してください",
+    },
   },
 };
 
@@ -60,8 +67,8 @@ function formattedLeftoversToString(leftovers, language = "en") {
     .join("\n");
 }
 
-function getPrompt(items, leftovers, language = "en") {
-  return `${termTable["prompt"][language]}\n\n${
+function getPrompt(items, leftovers, type, language = "en") {
+  return `${termTable["prompt"][type][language]}\n\n${
     termTable["items"][language]
   }:\n${formattedItemsToString(items, language)}\n\n${
     termTable["leftovers"][language]
@@ -72,6 +79,7 @@ export async function GET(request) {
   const url = new URL(request.url);
   const language = url.searchParams.get("language") || "en";
   const model = url.searchParams.get("model") || "gpt-oss-120b";
+  const type = url.searchParams.get("type") == "dessert" ? "dessert" : "dish";
 
   const items = await getAllItemsFormatted();
   const leftovers = await getLeftoversFormatted();
@@ -79,7 +87,7 @@ export async function GET(request) {
   //console.log("Items: ", JSON.stringify(items));
   //console.log("Leftovers: ", JSON.stringify(leftovers));
 
-  const prompt = getPrompt(items, leftovers, language);
+  const prompt = getPrompt(items, leftovers, type, language);
 
   console.log("Prompt: ", prompt);
   //console.log("Model: ", model);

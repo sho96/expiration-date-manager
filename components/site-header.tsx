@@ -33,18 +33,6 @@ export function SiteHeader() {
           <SidebarIcon size={24} />
         </Button>
         <Separator orientation="vertical" className="mr-2 h-4" />
-        {/* <h1 className="text-md flex flex-1 items-center gap-2">
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/icon.png"
-              width={25}
-              height={25}
-              className="rounded-full"
-              alt="Logo"
-            />
-          </Link>
-          Expiration Tracker
-        </h1> */}
         {
           <Breadcrumb>
             <BreadcrumbList className="flex items-center gap-1.5">

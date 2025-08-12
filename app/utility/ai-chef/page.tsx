@@ -47,12 +47,39 @@ export default function RenderStreamData() {
     localStorage.setItem("model", model);
   }, [language, model]);
 
-  const handleGenerate = useCallback(() => {
+  const handleGenerateRecipe = useCallback(() => {
     setData([]);
     setHtml(null);
     const asyncFetch = async () => {
       const stream = streamingFetch(
         `/api/utility/ai-chef?language=${language}&model=${model}`
+      );
+
+      let count = 0;
+      let joined = "";
+      for await (let value of stream) {
+        try {
+          joined += value;
+          count++;
+          if (count % 30 === 0) {
+            setData((prev) => [...prev, joined]);
+            joined = "";
+          }
+        } catch (e: any) {
+          console.warn(e.message);
+        }
+      }
+
+      setData((prev) => [...prev, joined]);
+    };
+    asyncFetch();
+  }, [language, model]);
+  const handleGenerateDessertRecipe = useCallback(() => {
+    setData([]);
+    setHtml(null);
+    const asyncFetch = async () => {
+      const stream = streamingFetch(
+        `/api/utility/ai-chef?language=${language}&model=${model}&type=dessert`
       );
 
       let count = 0;
@@ -179,7 +206,8 @@ export default function RenderStreamData() {
               </SelectContent>
             </Select>
           </div>
-          <Button variant={"outline"} size={"default"} disabled={!html} type="button" className="w-full" onClick={handleGenerate}>Generate</Button>
+          <Button variant={"outline"} size={"default"} disabled={!html} type="button" className="w-full" onClick={handleGenerateRecipe}>Generate Dish</Button>
+          <Button variant={"outline"} size={"default"} disabled={!html} type="button" className="w-full" onClick={handleGenerateDessertRecipe}>Generate Dessert</Button>
         </div>
         {!html && (
           <div className="text-muted-foreground flex flex-col gap-2">
