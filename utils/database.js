@@ -239,7 +239,7 @@ export async function getAllItemsFormatted(){
           name
         )
       )
-    `);
+    `).order('expiration_date', { ascending: true });
 
   console.log(data);
 
@@ -320,7 +320,7 @@ export async function getLeftoversFormatted(){
       id,
       name,
       expiration_date
-    `);
+    `).order('expiration_date', { ascending: true });
 
   if (error) {
     console.error(error);

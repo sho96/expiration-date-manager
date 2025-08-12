@@ -44,12 +44,12 @@ const termTable = {
     dish: {
       en: "Generate a recipe for the given items and leftovers. Respond in English",
       es: "Genera una receta para los artículos y residuos dados. Responde en español",
-      ja: "下の品目と残り物を使ったレシピを生成してください。日本語でまとめてください",
+      ja: "味の合った下の品目と残り物を使ったレシピを生成してください。日本語でまとめてください",
     },
     dessert: {
       en: "Generate a dessert recipe for the given items and leftovers. Respond in English",
       es: "Genera una receta de postre para los artículos y residuos dados. Responde en español",
-      ja: "下の品目と残り物を使ったデザートレシピを生成してください。日本語でまとめてください",
+      ja: "味の合った下の品目と残り物を使ったデザートレシピを生成してください。日本語でまとめてください",
     },
   },
 };
@@ -61,7 +61,7 @@ function formattedItemsToString(items, language = "en") {
   return items
     .map(
       (item) =>
-        `${termTable["name"][language]}: ${item.name}, ${termTable["category"][language]}: ${item.category}, ${termTable["expiration date"][language]}: ${item.expirationDate}`
+        `${termTable["name"][language]}: ${item.name}, ${termTable["category"][language]}: ${item.category}, ${termTable["expiration date"][language]}: ${item.expirationDate.toLocaleDateString()}`
     )
     .join("\n");
 }
@@ -73,7 +73,7 @@ function formattedLeftoversToString(leftovers, language = "en") {
   return leftovers
     .map(
       (leftover) =>
-        `${termTable["name"][language]}: ${leftover.name}, ${termTable["expiration date"][language]}: ${leftover.expirationDate}`
+        `${termTable["name"][language]}: ${leftover.name}, ${termTable["expiration date"][language]}: ${leftover.expirationDate.toLocaleDateString()}`
     )
     .join("\n");
 }
