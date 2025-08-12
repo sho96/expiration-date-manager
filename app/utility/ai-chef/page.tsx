@@ -143,7 +143,7 @@ export default function RenderStreamData() {
             AI Chef
           </h1>
           <p className="text-muted-foreground">
-            Let AI generate recipes for you!
+            Let AI generate a recipe based on your items and leftovers!
           </p>
         </div>
         <div className="mb-8 flex flex-col gap-4 items-start w-full max-w-100">

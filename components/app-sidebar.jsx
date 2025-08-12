@@ -122,7 +122,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
-              <Link href="/manage/dashboard">
+              <a href="/manage/dashboard">
                 <Image
                   src="/icon.png"
                   width={24}
@@ -131,7 +131,7 @@ export function AppSidebar() {
                   alt="Logo"
                 />
                 <span>Expiration Tracker</span>
-              </Link>
+              </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
