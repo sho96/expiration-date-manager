@@ -28,14 +28,14 @@ export async function GET() {
         const notAdded = await addExpiredItem(item.id);
         if (notAdded) {
           return {
-            id: leftover.id,
-            name: leftover.name,
+            id: item.id,
+            name: item.name,
           };
         }
         return null;
       })
     )
-  ).filter((leftover) => leftover);
+  ).filter((item) => item);
 
   const newlyExpiredLeftovers = (
     await Promise.all(
