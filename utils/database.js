@@ -53,6 +53,23 @@ export async function getCodes(){
   return (await supabase.from('code_to_product').select()).data;
 }
 
+export async function addRecipe(title, content){
+  return (await supabase.from('saved_recipes').insert({ title, content })).data;
+}
+
+export async function getRecipes(){
+  return (await supabase.from('saved_recipes').select()).data;
+}
+
+export async function deleteRecipe(id){
+  return (await supabase.from("saved_recipes").delete().eq("id", id)).data;
+}
+
+export async function getRecipeIdFromTitle(title){
+  const data = (await supabase.from('saved_recipes').select().eq('title', title).limit(1).single()).data;
+  return data ? data.id : null;
+}
+
 export async function addExpiredItem(item_id){
   //return true if added return false if already exists
 

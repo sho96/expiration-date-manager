@@ -1,0 +1,114 @@
+.response {
+  font-family: var(--font-dot-gothic);
+  color: var(--color-foreground);
+  h1{
+    font-weight: bold;
+  }
+  h1, h2 {
+    font-size: 1em;
+    margin-bottom: 0.5em;
+  }
+  h3 {
+    font-size: 0.875em;
+    margin-bottom: 0.5em;
+  }
+  h4 {
+    font-size: 0.75em;
+    margin-bottom: 0.5em;
+  }
+  h5 {
+    font-size: 0.625em;
+    margin-bottom: 0.5em;
+  }
+  h6 {
+    font-size: 0.5em;
+    margin-bottom: 0.5em;
+  }
+  p {
+    font-size: 0.875em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+  }
+  strong,
+  b {
+    font-weight: bold;
+  }
+  em,
+  i {
+    font-style: italic;
+  }
+  ul,
+  ol {
+    margin-bottom: 1em;
+    padding-left: 1.5em;
+  }
+  li {
+    margin-bottom: 0.5em;
+    font-size: 0.875em;
+    line-height: 1.2;
+  }
+  ul {
+    list-style-type: disc;
+  }
+  ol {
+    list-style-type: decimal;
+  }
+  blockquote {
+    background-color: var(--color-background);
+    border-left: 2px solid var(--color-primary);
+    padding: 0.25em 0.5em;
+    margin-left: 0.5em;
+    font-style: italic;
+    line-height: 1.2;
+    color: var(--color-muted-foreground);
+  }
+  a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+  button {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border: none;
+    padding: 0.25em 0.5em;
+    cursor: pointer;
+    font-size: 0.875em;
+  }
+  table {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0.5em;
+    th,
+    td {
+      border: 1px solid var(--color-border);
+      padding: 0.5em;
+      text-align: left;
+      font-size: 0.75em;
+    }
+    th {
+      background-color: var(--color-muted);
+      font-weight: bold;
+    }
+  }
+  code {
+    background-color: var(--color-muted);
+    padding: 0.25em;
+    font-family: monospace;
+    font-size: 0.875em;
+  }
+  pre {
+    background-color: var(--color-muted);
+    padding: 0.5em;
+    font-family: monospace;
+    font-size: 0.875em;
+    overflow-x: auto;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 1em 0;
+    width: 100%;
+  }
+}

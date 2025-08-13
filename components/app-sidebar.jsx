@@ -20,6 +20,7 @@ import {
   LayoutDashboard,
   PackagePlus,
   ScanSearch,
+  ScrollText,
   Search,
   Settings,
   Shapes,
@@ -74,6 +75,10 @@ const sideBarContents = [
       {
         title: "AI Chef",
         icon: ChefHat,
+      },
+      {
+        title: "Recipe",
+        icon: ScrollText,
       },
     ],
   },

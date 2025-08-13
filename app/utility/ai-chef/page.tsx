@@ -20,6 +20,9 @@ import { Button } from "@/components/ui/button";
 import { ChefHat, CircleArrowLeft } from "lucide-react";
 import { Input } from "@/components/ui/input";
 
+import SaveRecipeDialog from "@/components/SaveRecipeDialog";
+import toast from "react-hot-toast";
+
 async function markdownToHtml(markdown: string) {
   const output: string = micromark(markdown, {
     extensions: [gfmTable()],
@@ -36,18 +39,54 @@ export default function RenderStreamData() {
   const [model, setModel] = useState("gpt-oss-120b");
   const [postscript, setPostscript] = useState("");
 
+  const [savedRecipes, setSavedRecipes] = useState([]);
+
+  const [saveRecipeDialogOpened, setSaveRecipeDialogOpened] = useState(false);
+
   useEffect(() => {
     if (!localStorage){
       return;
     }
     setLanguage(localStorage.getItem("language") || "en");
     setModel(localStorage.getItem("model") || "gpt-oss-120b");
+    fetch("/api/utility/ai-chef/recipe")
+      .then((r) => r.json())
+      .then(resp => {
+        if (resp.error) {
+          alert(resp.error);
+          return;
+        }
+        console.log(resp);
+        setSavedRecipes(resp.recipes);
+      })
   }, []);
 
   useEffect(() => {
     localStorage.setItem("language", language);
     localStorage.setItem("model", model);
   }, [language, model]);
+
+  const handleSaveRecipe = useCallback((title) => {
+    if (title.title && data){
+      fetch("/api/utility/ai-chef/recipe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title: title.title, content: data.join("") }),
+      })
+      .then((r) => r.json())
+      .then(resp => {
+        if (resp.error) {
+          alert(resp.error);
+          return;
+        }
+        console.log(resp);
+        setSaveRecipeDialogOpened(false);
+        toast.success("Recipe saved!");
+      })
+    }
+  }, [data]);
 
   const handleGenerateRecipe = useCallback(() => {
     setData([]);
@@ -212,6 +251,7 @@ export default function RenderStreamData() {
             <label htmlFor="postscript" className="">P.S. </label>
             <Input type="text" placeholder="Add Postscript..." className="" value={postscript} onChange={(e) => setPostscript(e.target.value)} />
           </div>
+          <Button variant={"default"} size={"default"} disabled={!html} type="button" className="w-full" onClick={() => setSaveRecipeDialogOpened(true)}>Save Recipe</Button>
           <Button variant={"outline"} size={"default"} disabled={!html} type="button" className="w-full" onClick={handleGenerateRecipe}>Generate Dish</Button>
           <Button variant={"outline"} size={"default"} disabled={!html} type="button" className="w-full" onClick={handleGenerateDessertRecipe}>Generate Dessert</Button>
         </div>
@@ -229,6 +269,7 @@ export default function RenderStreamData() {
           />
         )}
       </div>
+      <SaveRecipeDialog opened={saveRecipeDialogOpened} close={() => setSaveRecipeDialogOpened(false)} saveRecipe={handleSaveRecipe} />
     </div>
   );
 }
