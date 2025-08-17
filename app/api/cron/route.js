@@ -10,12 +10,21 @@ export async function GET() {
   const allItems = await getAllItemsFormatted();
   const allLeftovers = await getLeftoversFormatted();
 
-  const previousDate = new Date();
-  previousDate.setHours(previousDate.getHours() + 9 - 24, 0, 0, 0);
-  previousDate.setHours(0, 0, 0, 0);
-  console.log(previousDate);
-  const today = previousDate;
-  today.setHours(previousDate.getHours() + 24, 0, 0, 0);
+  const timezone = 0;
+
+  const today = new Date();
+  const previousDate = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+    0,
+    0,
+    0,
+    0
+  );
+  previousDate.setDate(previousDate.getDate() - 1);
+  previousDate.setHours(previousDate.getHours() + timezone);
+
 
   console.log("Previous date: ", previousDate);
   console.log("Today: ", today);
