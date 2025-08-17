@@ -3,6 +3,7 @@ import {
   addExpiredLeftover,
   getAllItemsFormatted,
   getLeftoversFormatted,
+  getOrCreateTodaysHistoryRecord,
   incrementNumberOfExpirations,
 } from "@/utils/database";
 import { NextResponse } from "next/server";
@@ -67,6 +68,8 @@ export async function GET() {
   ).filter((leftover) => leftover);
 
   const totalExpired = newlyExpiredItems.length + newlyExpiredLeftovers.length;
+
+  getOrCreateTodaysHistoryRecord(today.toISOString().split("T")[0]);
 
   incrementNumberOfExpirations(
     today.toISOString().split("T")[0],

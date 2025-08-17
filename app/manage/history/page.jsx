@@ -56,7 +56,7 @@ export default function FoodWasteChart() {
           return acc;
         }, {});
 
-        setMonthlyHistory(Object.keys(monthlyData).map((month) => ({ month: monthNames[+month - 1], ...monthlyData[month] })));
+        setMonthlyHistory(Object.keys(monthlyData).map((month) => ({ month: monthNames[+month - 1], ...monthlyData[month] })).sort((a, b) => +a.month - +b.month));
 
         const dailyData = data.reduce((acc, item) => {
           // skip if older than 30 days
@@ -72,7 +72,7 @@ export default function FoodWasteChart() {
           return acc;
         }, {});
 
-        setDailyHistory(Object.keys(dailyData).map((date) => ({ date, ...dailyData[date] })));
+        setDailyHistory(Object.keys(dailyData).map((date) => ({ date, ...dailyData[date] })).sort((a, b) => new Date(a.date) - new Date(b.date)));
       });
   }, []);
   return (
