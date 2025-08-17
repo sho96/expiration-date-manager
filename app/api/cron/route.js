@@ -10,10 +10,15 @@ export async function GET() {
   const allItems = await getAllItemsFormatted();
   const allLeftovers = await getLeftoversFormatted();
 
-  const previousDate = new Date()
+  const previousDate = new Date();
   previousDate.setHours(previousDate.getHours() + 9 - 24, 0, 0, 0);
   previousDate.setHours(0, 0, 0, 0);
   console.log(previousDate);
+  const today = previousDate;
+  today.setHours(previousDate.getHours() + 24, 0, 0, 0);
+
+  console.log("Previous date: ", previousDate);
+  console.log("Today: ", today);
 
   const expiredItems = allItems.filter(
     (item) => item.expirationDate < previousDate
@@ -55,7 +60,7 @@ export async function GET() {
   const totalExpired = newlyExpiredItems.length + newlyExpiredLeftovers.length;
 
   incrementNumberOfExpirations(
-    new Date().toISOString().split("T")[0],
+    today.toISOString().split("T")[0],
     totalExpired
   );
 
@@ -64,6 +69,8 @@ export async function GET() {
   console.log("Newly expired items: ", newlyExpiredItems);
   console.log("Newly expired leftovers: ", newlyExpiredLeftovers);
   console.log("Total expired: ", totalExpired);
+  console.log("Today: ", today);
+
 
   return NextResponse.json({ success: true });
 }
