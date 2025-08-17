@@ -11,7 +11,7 @@ export async function GET() {
   const allItems = await getAllItemsFormatted();
   const allLeftovers = await getLeftoversFormatted();
 
-  const timezone = 0;
+  const timezone = 9;
 
   const today = new Date();
   const previousDate = new Date(
