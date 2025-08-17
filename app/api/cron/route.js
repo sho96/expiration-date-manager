@@ -11,7 +11,7 @@ export async function GET() {
   const allLeftovers = await getLeftoversFormatted();
 
   const previousDate = new Date()
-  previousDate.setHours(previousDate.getHours() + 9, 0, 0, 0);
+  previousDate.setHours(previousDate.getHours() + 9 - 24, 0, 0, 0);
   previousDate.setHours(0, 0, 0, 0);
   console.log(previousDate);
 
