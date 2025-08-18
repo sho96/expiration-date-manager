@@ -10,10 +10,6 @@ export async function* generate(
   model = "text-davinci-003",
   format = null
 ) {
-  console.log("Prompt: ", prompt);
-  console.log("Model: ", model);
-  console.log("Format: ", format);
-
   try {
     const response = await openai.chat.completions.create({
       messages: [{ role: "system", content: prompt }],
@@ -21,12 +17,11 @@ export async function* generate(
       model: model,
       stream: true,
     });
-  
+
     for await (const chunk of response) {
       yield chunk.choices[0]?.delta?.content || "";
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
     // You can also yield an error message or throw a new error
     yield `Error: ${error.message}`;
