@@ -1,27 +1,38 @@
-import Cerebras from "@cerebras/cerebras_cloud_sdk";
+import { OpenAI } from "openai";
 
-const client = new Cerebras({
-  apiKey: process.env.CEREBRAS_API_KEY, // This is the default and can be omitted
+const openai = new OpenAI({
+  baseURL: "https://api.cerebras.ai/v1",
+  apiKey: process.env.CEREBRAS_API_KEY,
 });
 
-export async function generate(prompt, model="qwen-3-32b", format=null) {
-  const stream = await client.chat.completions.create({
-    messages: [{ role: 'user', content: prompt }],
-    response_format: format,
-    model: model,
-    stream: true,
-  });
+export async function* generate(
+  prompt,
+  model = "text-davinci-003",
+  format = null
+) {
+  console.log("Prompt: ", prompt);
+  console.log("Model: ", model);
+  console.log("Format: ", format);
 
-  if (stream.error) {
-    throw new Error(stream.error.message);
+  try {
+    const response = await openai.chat.completions.create({
+      messages: [{ role: "system", content: prompt }],
+      response_format: format,
+      model: model,
+      stream: true,
+    });
+  
+    for await (const chunk of response) {
+      yield chunk.choices[0]?.delta?.content || "";
+    }
   }
-  console.log("Stream: ", stream);
-
-  return chatCompletionToReadableStream(stream);
+  catch (error) {
+    console.error(error);
+    // You can also yield an error message or throw a new error
+    yield `Error: ${error.message}`;
+  }
 }
 
-async function *chatCompletionToReadableStream(chatCompletionStream){
-  for await (const chunk of chatCompletionStream) {
-    yield chunk.choices[0]?.delta?.content || '';
-  }
+export async function getModels() {
+  return (await openai.models.list()).data.sort();
 }

@@ -32,6 +32,8 @@ async function markdownToHtml(markdown: string) {
 }
 
 export default function RenderStreamData() {
+  const [availableModels, setAvailableModels] = useState<string[]>([]);
+
   const [data, setData] = useState<any[]>(["## Click Generate!"]);
   const [html, setHtml] = useState("");
   //cookie to store language and model
@@ -49,6 +51,18 @@ export default function RenderStreamData() {
     }
     setLanguage(localStorage.getItem("language") || "en");
     setModel(localStorage.getItem("model") || "gpt-oss-120b");
+
+    fetch("/api/utility/ai-chef/models")
+      .then((r) => r.json())
+      .then(resp => {
+        if (resp.error) {
+          alert(resp.error);
+          return;
+        }
+        console.log(resp);
+        setAvailableModels(resp);
+      })
+
     fetch("/api/utility/ai-chef/recipe")
       .then((r) => r.json())
       .then(resp => {
@@ -102,7 +116,7 @@ export default function RenderStreamData() {
         try {
           joined += value;
           count++;
-          if (count % 30 === 0) {
+          if (count % 50 === 0) {
             setData((prev) => [...prev, joined]);
             joined = "";
           }
@@ -213,37 +227,11 @@ export default function RenderStreamData() {
                 <SelectValue placeholder="Select model" />
               </SelectTrigger>
               <SelectContent className="grow">
-                <SelectItem value="qwen-3-235b-a22b-instruct-2507" className={""}>
-                  qwen-3-235b-a22b-instruct-2507
-                </SelectItem>
-                <SelectItem value="qwen-3-235b-a22b-thinking-2507" className={""}>
-                  qwen-3-235b-a22b-thinking-2507
-                </SelectItem>
-                <SelectItem value="qwen-3-coder-480b" className={""}>
-                  qwen-3-coder-480b
-                </SelectItem>
-                <SelectItem value="llama-3.3-70b" className={""}>
-                  llama-3.3-70b
-                </SelectItem>
-                <SelectItem value="gpt-oss-120b" className={""}>
-                  gpt-oss-120b
-                </SelectItem>
-                <SelectItem value="qwen-3-32b" className={""}>
-                  qwen-3-32b
-                </SelectItem>
-                <SelectItem value="llama3.1-8b" className={""}>
-                  llama3.1-8b
-                </SelectItem>
-                <SelectItem value="llama-4-scout-17b-16e-instruct" className={""}>
-                  llama-4-scout-17b-16e-instruct
-                </SelectItem>
-                <SelectItem
-                  value="llama-4-maverick-17b-128e-instruct"
-                  className={""}
-                >
-                  llama-4-maverick-17b-128e-instruct
-                </SelectItem>
-                {/* Add more models as needed */}
+                {availableModels && availableModels.map((model) => (
+                  <SelectItem key={model} value={model} className={""}>
+                    {model}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
